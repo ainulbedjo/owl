@@ -21,6 +21,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             isProfileable = false
             proguardFiles(
@@ -30,6 +31,7 @@ android {
         }
         debug {
             isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = true
             isProfileable = true
         }
@@ -54,14 +56,20 @@ dependencies {
     implementation(Deps.ANDROIDX_CORE_KTX)
     implementation(Deps.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Deps.ANDROIDX_ACTIVITY_COMPOSE)
+    // one is implementation,
+    // the other is the test implementation
+    @Suppress("AvoidDuplicateDependencies")
     implementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
     implementation(Deps.ANDROIDX_COMPOSE_UI)
     implementation(Deps.ANDROIDX_COMPOSE_UI_GRAPHICS)
     implementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
+
+    // test and development
     testImplementation(Deps.JUNIT)
     androidTestImplementation(Deps.ANDROIDX_JUNIT)
     androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
+    @Suppress("AvoidDuplicateDependencies")
     androidTestImplementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
     androidTestImplementation(Deps.ANDROIDX_COMPOSE_UI_TEST_JUNIT4)
     debugImplementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING)
