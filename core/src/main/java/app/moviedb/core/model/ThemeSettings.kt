@@ -1,4 +1,4 @@
-package app.moviedb.core.ui
+package app.moviedb.core.model
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
@@ -8,7 +8,7 @@ enum class ThemeMode { SYSTEM, LIGHT, DARK }
  * [paletteId] names a palette in the design system. The wallpaper palette needs API 31+.
  */
 data class ThemeSettings(
-    val mode: ThemeMode = ThemeMode.SYSTEM,
+    val mode: ThemeMode = ThemeMode.DARK,
     val paletteId: String = DEFAULT_PALETTE_ID,
 ) {
     companion object {

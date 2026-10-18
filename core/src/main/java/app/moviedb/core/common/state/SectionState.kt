@@ -1,4 +1,6 @@
-package app.moviedb.core.common
+package app.moviedb.core.common.state
+
+import app.moviedb.core.common.AppError
 
 /** State of one independently loading part of a screen. An empty list is [Empty], not [Error]. */
 sealed interface SectionState<out T> {

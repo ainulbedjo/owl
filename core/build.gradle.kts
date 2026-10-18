@@ -36,14 +36,12 @@ android {
 
 }
 
+// No Compose here: this module is data and logic only. UI lives in :designsystem and the features.
 dependencies {
     implementation(Deps.KOTLINX_SERIALIZATION_JSON)
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation(Deps.ANDROIDX_CORE_KTX)
-    implementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
-    implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
+    // test and development
     testImplementation(Deps.JUNIT)
-    androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
     androidTestImplementation(Deps.ANDROIDX_JUNIT)
+    androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
 }
