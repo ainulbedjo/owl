@@ -15,15 +15,20 @@ From [requirements/requirements.md](requirements/requirements.md): no bugs and n
 ```
 :app
  ├── :feature:home       ──┐
- ├── :feature:detail     ──┼──> :core
- ├── :feature:favorites  ──┘
- └── :core
+ ├── :feature:detail     ──┼──> :core           (data and logic, no Compose)
+ ├── :feature:favorites  ──┤
+ │                         └──> :designsystem   (Compose UI, no data layer)
+ ├── :core
+ └── :designsystem
 ```
+
+`:core` and `:designsystem` depend on nothing. Features use both.
 
 | Module | Type | Owns |
 |---|---|---|
 | `:app` | Android application | `@HiltAndroidApp` `Application`, `MainActivity`, the `NavHost`, cross-feature navigation wiring, the theme host. |
-| `:core` | Android library | Network, database, preferences, repositories, domain models, error model, design system, shared UI components. |
+| `:core` | Android library | Network, database, preferences, repositories, domain models, error model. **No Compose.** |
+| `:designsystem` | Android library | Theme, color palettes, typography, shape and motion helpers, and generic components that two or more features share. **Compose only, and no knowledge of `Movie` or the data layer.** |
 | `:feature:home` | Android library | Home screen, its ViewModel, and its navigation entry. |
 | `:feature:detail` | Android library | Detail screen, its ViewModel, and its navigation entry. |
 | `:feature:favorites` | Android library | Favorites screen, its ViewModel, and its navigation entry. |
@@ -31,20 +36,44 @@ From [requirements/requirements.md](requirements/requirements.md): no bugs and n
 Dependency rules:
 
 1. `:app` depends on every module.
-2. Feature modules depend on `:core` only. **A feature never depends on another feature.**
-3. `:core` depends on no other project module.
+2. Feature modules depend on `:core` and `:designsystem` only. **A feature never depends on another feature.**
+3. `:core` and `:designsystem` depend on no other project module, and not on each other.
 4. A feature cannot navigate to another feature directly. See [Navigation](#navigation).
+5. **A thing moves into a shared module only when a second feature needs it.** Until then it lives in the feature that uses it.
 
-**Why one `:core` instead of `:core:network`, `:core:database`, and so on.** Splitting core into many modules pays off in large teams and for build parallelism. For three screens it adds Gradle files, `Deps` entries, and Hilt wiring without a benefit. Packages inside `:core` keep the boundaries visible. If `:core` grows, the packages below are the split lines.
+### Where does a file go?
+
+Ask these three questions in order:
+
+1. Does it import `androidx.compose`? Then it is not `:core`.
+2. Does it know about `Movie`, `SectionState`, a repository, or any other data type? Then it is not `:designsystem`.
+3. Is only one feature using it? Then it stays in that feature.
+
+The module boundary makes the answer checkable: a wrong import fails the build. To keep `:designsystem` free of data types, its components take plain values (`movieId: Int`, `title: String`, `rating: Double`) and ready-made text, never a `Movie` or an `AppError`. For the same reason `MoviedbTheme` takes `paletteId` and `darkTheme`, not `ThemeSettings`. `:app` turns the stored settings into those two values.
+
+Examples from the Home screen:
+
+| Piece | Lives in | Why |
+|---|---|---|
+| `MoviedbTheme`, palettes, `pressedCornerShape` | `:designsystem` | Every screen uses the theme. |
+| `RatingChip`, `RatingBadge`, `PosterArt`, `ErrorCard`, `EmptyCard`, `OfflineSheet` | `:designsystem` | Home, Detail, and Favorites all need them, and they need only plain values. |
+| `PopularCard`, `PosterCard`, `PosterSection`, loading skeletons | `:feature:home` | Only Home shows these strips. They take a `Movie`. |
+| `SectionStateContent`, the error and empty wording | `:feature:home` | It maps `SectionState` and `AppError` to text. |
+| `AppearanceSheet`, `ic_palette` | `:feature:home` | The theme picker is opened only from Home. |
+| `Movie`, `SectionState`, `AppError`, `ThemeSettings` | `:core` | Plain Kotlin that every layer shares. |
+
+**Why `:designsystem` is separate from `:core`.** Data code and Compose UI change for different reasons and need different dependencies. With one module, UI components drift into `:core` next to DTOs and repositories, and every file feels like it could go anywhere. Two modules give a yes-or-no test (does it use Compose?). It also keeps `:core` fast to compile and test: it has no Compose plugin and no Compose dependencies.
+
+**Why one `:core` instead of `:core:network`, `:core:database`, and so on.** Splitting data code into many modules pays off in large teams and for build parallelism. For three screens it adds Gradle files, `Deps` entries, and Hilt wiring without a benefit. Packages inside `:core` keep the boundaries visible. If `:core` grows, the packages below are the split lines.
 
 **Why shared repositories live in `:core`.** `MovieRepository` is used by Home and Detail, and `FavoriteRepository` by Detail and Favorites. Putting them in a feature would force one feature to depend on another, which rule 2 forbids.
 
-Build configuration follows the existing setup: `buildSrc/Deps.kt` is the single source for versions, SDK levels, and plugin ids. New modules reuse `Deps.NAMESPACE`-based namespaces (`app.moviedb.core`, `app.moviedb.feature.home`, and so on) and the same SDK constants. Under AGP 9, library modules use the `com.android.library` plugin and do **not** apply `org.jetbrains.kotlin.android`, because Kotlin support is built in.
+Build configuration follows the existing setup: `buildSrc/Deps.kt` is the single source for versions, SDK levels, and plugin ids. New modules use namespaces under `app.moviedb` (`app.moviedb.core`, `app.moviedb.designsystem`, `app.moviedb.home`, and so on) and the same SDK constants. Under AGP 9, library modules use the `com.android.library` plugin and do **not** apply `org.jetbrains.kotlin.android`, because Kotlin support is built in.
 
 ## Package layout
 
 ```
-:core  (app.moviedb.core)
+:core  (app.moviedb.core)            no Compose
   network/       Retrofit service, DTOs, auth interceptor, safeApiCall
   database/      Room database, FavoriteMovieEntity, FavoriteDao
   datastore/     Theme settings storage
@@ -52,15 +81,20 @@ Build configuration follows the existing setup: `buildSrc/Deps.kt` is the single
   model/         Movie, MovieDetail, Review, ThemeSettings
   common/        AppError, SectionState, TmdbImage (image URL builder)
   di/            Hilt modules
-  designsystem/  MovieDbTheme, color schemes, typography, shapes, motion
-  ui/            Shared composables: MoviePoster, ErrorCard, OfflineSheet, ShareSheet
 
-:feature:home  (app.moviedb.feature.home)
-  HomeRoute.kt, HomeScreen.kt, HomeViewModel.kt, HomeUiState.kt
+:designsystem  (app.moviedb.designsystem)   Compose only
+  theme/         MoviedbTheme, Palette, palette/ (one file per palette), Type, pressedCornerShape
+  component/     RatingChip, RatingBadge, PosterArt, ErrorCard, EmptyCard, OfflineSheet, pulse
+  format/        toRatingLabel, toCardDate
+  res/           Strings and drawables used by the components above
+
+:feature:home  (app.moviedb.home)
+  ui/            HomeRoute, HomeScreen, HomeViewModel, HomeUiState, and the Home-only
+                 components (PopularCard, PosterCard, sections, skeletons, AppearanceSheet)
   (same shape for detail and favorites)
 ```
 
-Each feature holds only presentation code: a route, a screen composable, a ViewModel, and a UI state class. The data layer is in `:core`.
+Each feature holds only presentation code: a route, a screen composable, a ViewModel, a UI state class, and the components only that feature uses. The data layer is in `:core`. Shared UI is in `:designsystem`.
 
 **No use-case layer in v1.** ViewModels call repositories directly. A use case is added only when logic is shared by two ViewModels or is complex enough to need its own tests. None of the three screens meets that bar today.
 
@@ -184,7 +218,8 @@ The prototype includes a theme picker (mode and palette). It is not in the PDF a
 
 - `ThemeSettings(mode: ThemeMode, paletteId: String)`, with `ThemeMode` being `SYSTEM`, `LIGHT`, or `DARK`.
 - `ThemeRepository` exposes `Flow<ThemeSettings>` and `suspend fun update(...)`, backed by DataStore Preferences. Room would be overkill for two values.
-- `MainActivity` collects the settings and passes them to `MovieDbTheme` in `:core/designsystem`. Features read `MaterialTheme.colorScheme` and never know which palette is active.
+- `MainActivity` collects the settings, works out whether the theme is dark, and passes `paletteId` and `darkTheme` to `MoviedbTheme` in `:designsystem`. `ThemeSettings` itself stays in `:core`. Features read `MaterialTheme.colorScheme` and never know which palette is active.
+- Palettes are written out by hand: one file per palette in `:designsystem/.../theme/palette/`, each with a light and a dark `ColorScheme`. A unit test checks text contrast for every palette.
 - To avoid a flash of the wrong theme at startup, keep the splash screen visible until the first settings value arrives.
 - The wallpaper-based palette needs Android 12 (API 31). `MIN_SDK` is 30, so that option is hidden when `Build.VERSION.SDK_INT < 31`.
 
