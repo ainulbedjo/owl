@@ -16,7 +16,6 @@ import androidx.compose.runtime.setValue
 import app.moviedb.core.model.ThemeMode
 import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.theme.MoviedbTheme
-import app.moviedb.home.ui.HomeRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,14 +37,12 @@ class MainActivity : ComponentActivity() {
             }
 
             MoviedbTheme(paletteId = theme.paletteId, darkTheme = dark) {
-                HomeRoute(
+                AppNavHost(
                     theme = theme,
                     onThemeChange = {
                         mode = it.mode
                         paletteId = it.paletteId
                     },
-                    onMovieClick = {},
-                    onFavoritesClick = {},
                 )
             }
         }

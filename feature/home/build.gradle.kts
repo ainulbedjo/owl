@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.plugin.compose")
+    id(Deps.Plugins.KOTLIN_SERIALIZATION)
 }
 
 android {
@@ -27,6 +28,8 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":designsystem"))
+    implementation(Deps.KOTLINX_SERIALIZATION_JSON)
+    implementation(Deps.ANDROIDX_NAVIGATION_COMPOSE)
 
     @Suppress("AvoidDuplicateDependencies")
     implementation(platform(Deps.ANDROIDX_COMPOSE_BOM))

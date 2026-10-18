@@ -56,10 +56,12 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":designsystem"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:detail"))
 
     implementation(Deps.ANDROIDX_CORE_KTX)
     implementation(Deps.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Deps.ANDROIDX_ACTIVITY_COMPOSE)
+    implementation(Deps.ANDROIDX_NAVIGATION_COMPOSE)
     // one is implementation,
     // the other is the test implementation
     @Suppress("AvoidDuplicateDependencies")
