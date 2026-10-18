@@ -18,6 +18,7 @@ object Deps {
         const val LIFECYCLE_RUNTIME_KTX = "2.11.0"
         const val ACTIVITY_COMPOSE = "1.13.0"
         const val COMPOSE_BOM = "2026.09.00" // to accommodate M3 expressive
+        const val MATERIAL3 = "1.5.0-beta01"
         const val RETROFIT = "2.11.0"
         const val KOTLINX_SERIALIZATION = "1.11.0"
     }
@@ -42,7 +43,9 @@ object Deps {
     const val ANDROIDX_COMPOSE_UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
     const val ANDROIDX_COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest"
     const val ANDROIDX_COMPOSE_UI_TEST_JUNIT4 = "androidx.compose.ui:ui-test-junit4"
-    const val ANDROIDX_COMPOSE_MATERIAL3 = "androidx.compose.material3:material3"
+    const val ANDROIDX_COMPOSE_MATERIAL3 =
+        "androidx.compose.material3:material3:${Versions.MATERIAL3}"
+    const val ANDROIDX_COMPOSE_ICON = "androidx.compose.material:material-icons-extended"
 
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
     const val ANDROIDX_JUNIT = "androidx.test.ext:junit:${Versions.JUNIT_EXT}"

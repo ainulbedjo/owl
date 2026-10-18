@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retry">Retry</string>
+
+    <!-- ==== OFFLINE SHEET ==== -->
+    <string name="offline_title">No connection</string>
+    <string name="offline_hint">Check your Wi-Fi or mobile data, then try again. Your favorites are still available offline.</string>
+    <string name="offline_try_again">Try again</string>
+    <string name="offline_open_favorites">Open favorites</string>
+</resources>
