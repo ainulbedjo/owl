@@ -22,10 +22,10 @@ grep -rn "TODO(data)\|once we add Coil" --include="*.kt" .
 
 Add to `buildSrc/.../Deps.kt` (check each version is current, and that Hilt and KSP work with AGP 9.1 and built-in Kotlin before relying on them):
 
-- [ ] OkHttp, and the logging interceptor for debug builds.
-- [ ] `Deps.RETROFIT` already exists. Add the Retrofit kotlinx.serialization converter (`com.squareup.retrofit2:converter-kotlinx-serialization`).
-- [ ] Hilt (`hilt-android`, compiler through KSP, `hilt-navigation-compose`) and the KSP plugin.
-- [ ] `lifecycle-viewmodel-compose` and `lifecycle-runtime-compose` (for `collectAsStateWithLifecycle`).
+- [x] OkHttp, and the logging interceptor for debug builds.
+- [x] `Deps.RETROFIT` already exists. Add the Retrofit kotlinx.serialization converter (`com.squareup.retrofit2:converter-kotlinx-serialization`).
+- [x] Hilt (`hilt-android`, compiler through KSP, `hilt-navigation-compose`) and the KSP plugin.
+- [x] `lifecycle-viewmodel-compose` and `lifecycle-runtime-compose` (for `collectAsStateWithLifecycle`).
 - [ ] Coil 3 (`coil-compose`, `coil-network-okhttp`). Needed in step 7.
 - [ ] Test libraries: `kotlinx-coroutines-test`, Turbine, MockK.
 
@@ -35,31 +35,31 @@ Done when: the project syncs and `./gradlew :app:assembleDebug` passes.
 
 Contract: [api/tmdb_overview.md](../api/tmdb_overview.md), [api/movie_lists.md](../api/movie_lists.md), [api/movie_detail.md](../api/movie_detail.md), [api/movie_reviews.md](../api/movie_reviews.md).
 
-- [ ] `MovieApi`: a Retrofit interface with `popular()`, `topRated()`, `nowPlaying()`, `movieDetail(id)`, `reviews(id)`. Base URL `https://api.themoviedb.org/3/`. Page 1 only.
-- [ ] An OkHttp interceptor that adds `Authorization: Bearer ${BuildConfig.ACCESS_TOKEN}` and `accept: application/json`.
-- [ ] A `Json` instance with `ignoreUnknownKeys = true`, wired to the Retrofit converter.
-- [ ] `safeApiCall { }` that turns failures into `AppError`:
+- [x] `MovieApi`: a Retrofit interface with `popular()`, `topRated()`, `nowPlaying()`, `movieDetail(id)`, `reviews(id)`. Base URL `https://api.themoviedb.org/3/`. Page 1 only.
+- [x] An OkHttp interceptor that adds `Authorization: Bearer ${BuildConfig.ACCESS_TOKEN}` and `accept: application/json`.
+- [x] A `Json` instance with `ignoreUnknownKeys = true`, wired to the Retrofit converter.
+- [x] `safeApiCall { }` that turns failures into `AppError`:
   - `IOException` to `Network`
   - HTTP 401 to `Unauthorized`, 404 to `NotFound`, 429 to `RateLimited`, 5xx to `Server`
   - anything else to `Unexpected`
   - **rethrow `CancellationException`**, never turn it into an error (see [home.md](../features/home.md#viewmodel)).
-- [ ] Decide the result type the repository returns (for example a small `AppResult<T>` with `Success` and `Failure(AppError)`), and put it in `:core/common`.
+- [x] Decide the result type the repository returns (for example a small `AppResult<T>` with `Success` and `Failure(AppError)`), and put it in `:core/common`.
 
 Done when: a unit test with MockWebServer returns a mapped `Movie` list for a sample JSON, and maps a 404 and a thrown `IOException` to the right `AppError`.
 
 ## 3. `MovieRepository`, in `:core/data`
 
-- [ ] An interface plus an implementation: `popular()`, `topRated()`, `nowPlaying()`, `movieDetail(id)`, `reviews(id)`. It returns domain models, never DTOs.
-- [ ] Reviews: a 404 means "no reviews", return an empty list, not an error ([detail.md](../features/detail.md#reviews)).
+- [x] An interface plus an implementation: `popular()`, `topRated()`, `nowPlaying()`, `movieDetail(id)`, `reviews(id)`. It returns domain models, never DTOs.
+- [x] Reviews: a 404 means "no reviews", return an empty list, not an error ([detail.md](../features/detail.md#reviews)).
 - [ ] A fake implementation for ViewModel tests.
 
 Done when: repository tests pass against the fake API from step 2.
 
 ## 4. Hilt
 
-- [ ] An `@HiltAndroidApp` `Application` class in `:app`, and `android:name` in the manifest.
-- [ ] `@AndroidEntryPoint` on `MainActivity`.
-- [ ] Modules in `:core/di`: one provides OkHttp, `Json`, Retrofit, and `MovieApi`. One binds `MovieRepository`.
+- [x] An `@HiltAndroidApp` `Application` class in `:app`, and `android:name` in the manifest.
+- [x] `@AndroidEntryPoint` on `MainActivity`.
+- [x] Modules in `:core/di`: one provides OkHttp, `Json`, Retrofit, and `MovieApi`. One binds `MovieRepository`.
 
 Done when: the app starts with no Hilt errors.
 
@@ -67,12 +67,12 @@ Done when: the app starts with no Hilt errors.
 
 Spec: [features/home.md](../features/home.md#viewmodel).
 
-- [ ] `@HiltViewModel` with `StateFlow<HomeUiState>`. The three loads start together and run in parallel.
-- [ ] Map each result to `SectionState`: success with items to `Content`, success with none to `Empty`, failure to `Error`.
-- [ ] `onRetry(section)` reloads one section. `onTryAgain()` reloads every section in `Error`.
-- [ ] Open the offline sheet once when a section fails with `Network`, even when all three fail.
-- [ ] Ignore a late response from an earlier load (keep a job or a request id per section).
-- [ ] In `HomeNavigation.kt`, replace `HomeEntry`'s sample state with `hiltViewModel()` and `collectAsStateWithLifecycle()`. Then delete `home/data/FakeMovies.kt`, or keep it only for previews.
+- [x] `@HiltViewModel` with `StateFlow<HomeUiState>`. The three loads start together and run in parallel.
+- [x] Map each result to `SectionState`: success with items to `Content`, success with none to `Empty`, failure to `Error`.
+- [x] `onRetry(section)` reloads one section. `onTryAgain()` reloads every section in `Error`.
+- [x] Open the offline sheet once when a section fails with `Network`, even when all three fail.
+- [x] Ignore a late response from an earlier load (keep a job or a request id per section).
+- [x] In `HomeNavigation.kt`, replace `HomeEntry`'s sample state with `hiltViewModel()` and `collectAsStateWithLifecycle()`. Then delete `home/data/FakeMovies.kt`, or keep it only for previews.
 
 Done when: Home shows real movies. Turn on airplane mode and relaunch: the offline sheet appears once, then each section shows its Retry card.
 
@@ -80,12 +80,12 @@ Done when: Home shows real movies. Turn on airplane mode and relaunch: the offli
 
 Spec: [features/detail.md](../features/detail.md#viewmodel).
 
-- [ ] `@HiltViewModel` that reads the id with `savedStateHandle.toRoute<DetailRoute>()`.
-- [ ] Load the movie and the reviews in parallel, each into its own `SectionState`.
-- [ ] A `NotFound` on the movie stays `Error(AppError.NotFound)` (the screen already shows the "not available" state). A 404 on reviews is `Empty`.
-- [ ] Share sheet visibility, the offline sheet rule (one sheet when both calls fail), `onRetryMovie`, `onRetryReviews`, `onTryAgain`.
-- [ ] A `Channel<String>` exposed as a `Flow` for snackbar messages, passed to `DetailScreen(messages = ...)`.
-- [ ] In `DetailNavigation.kt`, replace `DetailEntry`'s sample state with the ViewModel.
+- [x] `@HiltViewModel` that reads the id with `savedStateHandle.toRoute<DetailRoute>()`.
+- [x] Load the movie and the reviews in parallel, each into its own `SectionState`.
+- [x] A `NotFound` on the movie stays `Error(AppError.NotFound)` (the screen already shows the "not available" state). A 404 on reviews is `Empty`.
+- [x] Share sheet visibility, the offline sheet rule (one sheet when both calls fail), `onRetryMovie`, `onRetryReviews`, `onTryAgain`.
+- [x] A `Channel` of message kinds (`DetailMessage`) exposed as a `Flow`. The screen turns each into text and passes it to `DetailScreen(messages = ...)`.
+- [x] In `DetailNavigation.kt`, replace `DetailEntry`'s sample state with the ViewModel.
 
 Done when: tapping a Home card shows the real movie and its reviews, and a bad id shows the not-found state.
 

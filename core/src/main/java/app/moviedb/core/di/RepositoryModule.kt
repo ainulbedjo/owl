@@ -3,8 +3,8 @@ package app.moviedb.core.di
 import app.moviedb.core.data.network.service.ApiService
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.data.repository.MovieRepositoryImpl
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-    @Binds
+    @Provides
     @Singleton
     fun bindMovieRepository(apiService: ApiService): MovieRepository {
         return MovieRepositoryImpl(apiService)

@@ -10,7 +10,7 @@ From [requirements.md](../requirements/requirements.md):
 - [ ] Favorite: save the movie to local storage and remove it from local storage.
 - [ ] Share: show a bottom sheet.
 
-The wireframe also shows a large backdrop, title, release date, and description. Those come from the movie detail call, which the PDF does not list but the screen needs.
+The screen also shows a large backdrop, title, release date, and description. Those come from the movie detail call.
 
 ## User stories
 
@@ -97,7 +97,7 @@ Rules:
 
 ## Share behavior
 
-Tapping **Share** opens a modal bottom sheet (required by the PDF). It is disabled until the movie has loaded, because it needs the title.
+Tapping **Share** opens a modal bottom sheet. It is disabled until the movie has loaded, because it needs the title.
 
 Sheet content:
 

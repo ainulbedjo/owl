@@ -28,6 +28,7 @@ object Deps {
         const val RETROFIT = "2.11.0"
         const val LEAK_CANARY = "2.14"
         const val HILT = "2.60.1"
+        const val HILT_NAVIGATION_COMPOSE = "1.3.0"
         const val KSP = "2.3.12"
         const val OKHTTP = "5.5.0"
     }
@@ -70,6 +71,10 @@ object Deps {
         "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
 
     // DI
+    const val ANDROIDX_LIFECYCLE_RUNTIME_COMPOSE =
+        "androidx.lifecycle:lifecycle-runtime-compose:${Versions.LIFECYCLE_RUNTIME_KTX}"
+    const val HILT_NAVIGATION_COMPOSE =
+        "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAVIGATION_COMPOSE}"
     const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
     const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT}"
 

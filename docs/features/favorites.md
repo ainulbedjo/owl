@@ -8,7 +8,7 @@ From [requirements.md](../requirements/requirements.md):
 
 - [ ] Show the list of the user's favorite movies.
 
-Removing a favorite from this list is a small addition. The PDF requires removal on Detail, and the wireframe has no remove control here. It is cheap, and it fixes the case where a viewer wants to clean up without opening each movie.
+Removing a favorite from this list is a small addition. Removal is already required on Detail, so a remove control here is not required. It is cheap, and it fixes the case where a viewer wants to clean up without opening each movie.
 
 ## User stories
 
@@ -24,7 +24,7 @@ Reference: the "Favorites" and "Favorites, empty" boards in the UI prototype can
 
 | Part | Content |
 |---|---|
-| App bar | A round back button, the title "Favorite Movie" (the wording in the PDF wireframe), and the subtitle with the count, for example "3 saved". |
+| App bar | A round back button, the title "Favorite Movie", and the subtitle with the count, for example "3 saved". |
 | List | A vertical list of rows, 12 dp apart. |
 
 ### Row
@@ -36,7 +36,7 @@ A rounded container (28 dp corner radius, 12 dp padding) holding:
 | Poster | 92 x 132 dp, `w185`. Corner radius 16 dp, which is the container radius minus its padding (28 - 12), so nested corners look balanced. |
 | Title | Up to two lines, ellipsis after that. |
 | Release date | One line, in the accent color. |
-| Description | The stored overview, truncated to three lines with ellipsis. This matches the "truncated description" in the wireframe. |
+| Description | The stored overview, truncated to three lines with ellipsis. |
 | Remove | A heart icon button at the top right of the row. The heart is filled because every item here is a favorite. |
 
 Tapping the poster or the title opens Detail. Tapping the heart removes the movie.

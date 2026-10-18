@@ -4,7 +4,7 @@ MovieDB is a multi-module Android app. The UI is Jetpack Compose with Material 3
 
 ## Goals that shape the design
 
-From [requirements/requirements.md](requirements/requirements.md): no bugs and no crashes, every required feature works, library choices are justified, and MVVM, Hilt, Jetpack, and unit tests earn bonus points. The design therefore favors:
+From [requirements/requirements.md](requirements/requirements.md): no bugs and no crashes, every required feature works, library choices are justified, and MVVM, Hilt, Jetpack, and unit tests are goals. The design therefore favors:
 
 - **Small and obvious over clever.** Three screens do not need a use-case layer or a module per layer.
 - **Failure is a first-class state.** Every screen models loading, content, empty, and error explicitly.
@@ -214,7 +214,7 @@ Database changes after the first release need a migration. Until then the schema
 
 ### Theme settings (DataStore)
 
-The prototype includes a theme picker (mode and palette). It is not in the PDF and is an optional addition.
+The prototype includes a theme picker (mode and palette). It is an optional addition.
 
 - `ThemeSettings(mode: ThemeMode, paletteId: String)`, with `ThemeMode` being `SYSTEM`, `LIGHT`, or `DARK`.
 - `ThemeRepository` exposes `Flow<ThemeSettings>` and `suspend fun update(...)`, backed by DataStore Preferences. Room would be overkill for two values.
@@ -284,7 +284,7 @@ The TMDB read access token comes from `local.properties`, which is not committed
 
 ## Testing strategy
 
-Tests are a bonus item and also protect the "no crashes" goal. The plan is unit tests first, kept fast and JVM-only.
+Tests protect the "no crashes" goal. The plan is unit tests first, kept fast and JVM-only.
 
 | Target | What is tested | Tools |
 |---|---|---|

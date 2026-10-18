@@ -10,6 +10,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -23,12 +24,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(context: Context): OkHttpClient {
+    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(BuildConfig.ACCESS_TOKEN))
 
         if (BuildConfig.DEBUG) {
             val chucker = ChuckerInterceptor.Builder(context)
+                .redactHeaders("Authorization")
                 .maxContentLength(250_000L)
                 .alwaysReadResponseBody(true)
                 .build()

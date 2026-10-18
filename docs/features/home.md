@@ -11,7 +11,7 @@ From [requirements.md](../requirements/requirements.md):
 - [ ] Now playing movies list.
 - [ ] Favorite icon button that navigates to the Favorite List page.
 
-Also on this screen, beyond the PDF: a theme picker entry point (see [Theme picker](#theme-picker-optional)).
+Also on this screen: a theme picker entry point (see [Theme picker](#theme-picker-optional)).
 
 ## User stories
 
@@ -23,7 +23,7 @@ Also on this screen, beyond the PDF: a theme picker entry point (see [Theme pick
 
 ## Layout
 
-Reference: the "Home" boards in the UI prototype canvas. The wireframe in the PDF is a layout guide only, so the styling follows Material 3 Expressive (see `design/design_system.md`, planned).
+Reference: the "Home" boards in the UI prototype canvas. The styling follows Material 3 Expressive (see `design/design_system.md`, planned).
 
 | Part | Content |
 |---|---|
@@ -121,7 +121,7 @@ Navigation is not handled by the ViewModel. The screen calls the callbacks it re
 
 ## Theme picker (optional)
 
-Not in the PDF. It is a small addition that shows Material 3 Expressive theming.
+It is a small addition that shows Material 3 Expressive theming.
 
 - The palette icon in the app bar opens a modal bottom sheet titled "Appearance".
 - Mode: a connected button group with System, Light, and Dark. The selected button has a check mark and fully rounded corners. Unselected buttons have small inner corners.

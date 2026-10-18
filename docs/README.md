@@ -1,14 +1,14 @@
 # MovieDB Docs
 
-Planning docs for the Parkee Android Engineer Test: a movie app built on the TMDB API, using MVVM, Hilt, and Material 3 Expressive.
+Planning docs for MovieDB: a movie app built on the TMDB API, using MVVM, Hilt, and Material 3 Expressive.
 
-The source brief is [requirements/requirements.pdf](requirements/requirements.pdf). A checklist version is in [requirements/requirements.md](requirements/requirements.md).
+A checklist of what the app does is in [requirements/requirements.md](requirements/requirements.md).
 
 ## How to read these docs
 
 Each document owns one decision area. Read in this order:
 
-1. **Requirements**: what the test asks for.
+1. **Requirements**: what the app must do.
 2. **API**: what the backend gives us.
 3. **Architecture and libraries**: how the app is built and why.
 4. **Features**: behavior of each screen.
@@ -37,7 +37,7 @@ Links turn into real links as each document is written.
 - Multi-module project with a shared `:core` module.
 - Stack: Retrofit, kotlinx.serialization, Coil, Room, Hilt.
 - Errors: only no-connection (`IOException`) opens a bottom sheet. Server and other errors stay as inline cards with Retry. See [api/tmdb_overview.md](api/tmdb_overview.md#where-errors-are-shown).
-- UI follows Material 3 Expressive. The PDF wireframe is a layout guide, not a visual spec.
+- UI follows Material 3 Expressive.
 
 ## Layout
 
@@ -45,7 +45,6 @@ Links turn into real links as each document is written.
 docs/
   README.md
   requirements/
-    requirements.pdf
     requirements.md
   architecture.md
   libraries.md

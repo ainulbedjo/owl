@@ -1,6 +1,6 @@
 # Movie detail
 
-One endpoint feeds the top of the Detail screen. The PDF does not list it, but the screen needs a description, runtime, genres, and a backdrop that the list items do not carry. Common rules are in [tmdb_overview.md](tmdb_overview.md).
+One endpoint feeds the top of the Detail screen. The screen needs a description, runtime, genres, and a backdrop that the list items do not carry. Common rules are in [tmdb_overview.md](tmdb_overview.md).
 
 | Endpoint | Reference |
 |---|---|

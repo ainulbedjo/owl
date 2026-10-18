@@ -1,11 +1,12 @@
 package app.moviedb.home.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import app.moviedb.core.model.ThemeSettings
-import app.moviedb.home.data.sampleHomeState
 import kotlinx.serialization.Serializable
 
 /** The start destination. It has no arguments. */
@@ -32,7 +33,6 @@ fun NavGraphBuilder.homeScreen(
     }
 }
 
-// TODO(data): replace the sample state with HomeViewModel (see docs/todo/data-fetch.md).
 @Composable
 private fun HomeEntry(
     theme: ThemeSettings,
@@ -40,15 +40,17 @@ private fun HomeEntry(
     onMovieClick: (movieId: Int) -> Unit,
     onFavoritesClick: () -> Unit,
 ) {
-    val state = remember(theme) { sampleHomeState.copy(theme = theme) }
+    val viewModel: HomeViewModel = hiltViewModel()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
-        state = state,
+        // The theme is owned by the app, so it is added here, not in the ViewModel.
+        state = state.copy(theme = theme),
         onMovieClick = onMovieClick,
         onFavoritesClick = onFavoritesClick,
-        onRetry = {},
-        onTryAgain = {},
-        onDismissOfflineSheet = {},
+        onRetry = viewModel::onRetry,
+        onTryAgain = viewModel::onTryAgain,
+        onDismissOfflineSheet = viewModel::onDismissOfflineSheet,
         onThemeChange = onThemeChange,
     )
 }

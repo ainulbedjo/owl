@@ -16,7 +16,9 @@ import androidx.compose.runtime.setValue
 import app.moviedb.core.model.ThemeMode
 import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.theme.MoviedbTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

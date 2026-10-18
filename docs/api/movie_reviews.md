@@ -1,6 +1,6 @@
 # Movie reviews
 
-One endpoint feeds the Reviews section of the Detail screen. This is a required feature in the PDF. Common rules are in [tmdb_overview.md](tmdb_overview.md).
+One endpoint feeds the Reviews section of the Detail screen. This is a required feature. Common rules are in [tmdb_overview.md](tmdb_overview.md).
 
 | Endpoint | Reference |
 |---|---|

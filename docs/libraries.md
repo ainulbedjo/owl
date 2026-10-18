@@ -1,24 +1,24 @@
 # Libraries
 
-Library choice is graded in the test, so each choice here has a reason and a rejected alternative. How the libraries fit together is in [architecture.md](architecture.md).
+Each choice here has a reason and a rejected alternative. How the libraries fit together is in [architecture.md](architecture.md).
 
 **Versions are not listed here.** They live in `buildSrc/src/main/kotlin/Deps.kt`, the single source of truth. Add each library there, not in a module's `build.gradle.kts`. Pick the newest **stable** release at the time you add it, and check the compatibility notes at the end of this page first.
 
 ## Summary
 
-| Area | Library | Bonus item |
-|---|---|---|
-| UI | Jetpack Compose, Material 3 (Expressive), Compose BOM | Android Jetpack |
-| Navigation | Navigation Compose (type-safe routes) | Android Jetpack |
-| Architecture | Lifecycle ViewModel and runtime for Compose | Android Jetpack |
-| DI | Hilt, with KSP | Hilt |
-| Network | Retrofit, OkHttp | |
-| Parsing | kotlinx.serialization | |
-| Images | Coil 3 | |
-| Local data | Room, DataStore Preferences | Android Jetpack |
-| Async | Kotlin coroutines and Flow | |
-| Startup | AndroidX SplashScreen | Android Jetpack |
-| Tests | JUnit 4, kotlinx-coroutines-test, Turbine, MockK | Unit tests |
+| Area | Library |
+|---|---|
+| UI | Jetpack Compose, Material 3 (Expressive), Compose BOM |
+| Navigation | Navigation Compose (type-safe routes) |
+| Architecture | Lifecycle ViewModel and runtime for Compose |
+| DI | Hilt, with KSP |
+| Network | Retrofit, OkHttp |
+| Parsing | kotlinx.serialization |
+| Images | Coil 3 |
+| Local data | Room, DataStore Preferences |
+| Async | Kotlin coroutines and Flow |
+| Startup | AndroidX SplashScreen |
+| Tests | JUnit 4, kotlinx-coroutines-test, Turbine, MockK |
 
 ## Details
 
@@ -42,7 +42,7 @@ Library choice is graded in the test, so each choice here has a reason and a rej
 
 | Library | Role | Why | Not chosen |
 |---|---|---|---|
-| **Hilt** (`hilt-android`, `hilt-compiler`, `hilt-navigation-compose`) | DI for the Application, ViewModels, and repositories. | A bonus item in the PDF, built for Android, and it removes manual wiring in a multi-module app. `@HiltViewModel` plus `hiltViewModel()` is the Jetpack standard. | Koin (runtime errors instead of compile-time checks, and not the Jetpack path), or manual DI (does not earn the bonus). |
+| **Hilt** (`hilt-android`, `hilt-compiler`, `hilt-navigation-compose`) | DI for the Application, ViewModels, and repositories. | Built for Android, and it removes manual wiring in a multi-module app. `@HiltViewModel` plus `hiltViewModel()` is the Jetpack standard. | Koin (runtime errors instead of compile-time checks, and not the Jetpack path), or manual DI (more wiring to write and check by hand). |
 | **KSP** | Runs the Hilt and Room annotation processors. | Faster than kapt. **kapt is not an option**: it conflicts with AGP 9 built-in Kotlin. | kapt. |
 
 ### Network and data parsing

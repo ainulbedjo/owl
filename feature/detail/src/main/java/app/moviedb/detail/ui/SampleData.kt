@@ -51,7 +51,7 @@ internal val sampleReviews = listOf(
     ),
 )
 
-internal fun sampleDetailState(movieId: Int) = DetailUiState(
+internal fun sampleDetailState(movieId: Int = 1) = DetailUiState(
     movie = SectionState.Content(sampleMovie.copy(id = movieId)),
     reviews = SectionState.Content(sampleReviews),
 )
