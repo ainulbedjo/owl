@@ -56,6 +56,7 @@ dependencies {
 
     // test and development
     testImplementation(Deps.JUNIT)
+    testImplementation(Deps.COROUTINES_TEST)
     androidTestImplementation(Deps.ANDROIDX_JUNIT)
     androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
 }

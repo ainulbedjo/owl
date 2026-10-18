@@ -21,6 +21,7 @@ object Deps {
         const val MATERIAL3 = "1.5.0-beta01"
         const val NAVIGATION_COMPOSE = "2.9.8"
         const val KOTLINX_SERIALIZATION = "1.11.0"
+        const val COROUTINES = "1.10.2"
 
         // LIBRARIES
         const val CHUCKER = "4.2.0"
@@ -43,10 +44,12 @@ object Deps {
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
     const val ANDROIDX_LIFECYCLE_RUNTIME_KTX =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME_KTX}"
-    const val ANDROIDX_ACTIVITY_COMPOSE =
-        "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
+    const val COROUTINES_TEST =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES}"
 
     // COMPOSE
+    const val ANDROIDX_ACTIVITY_COMPOSE =
+        "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
     const val ANDROIDX_COMPOSE_BOM = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
     const val ANDROIDX_COMPOSE_UI = "androidx.compose.ui:ui"
     const val ANDROIDX_COMPOSE_UI_GRAPHICS = "androidx.compose.ui:ui-graphics"
