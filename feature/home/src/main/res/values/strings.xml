@@ -1,0 +1,32 @@
+<resources>
+    <string name="home_title">MovieDB</string>
+    <string name="home_subtitle">What is on tonight</string>
+    <string name="home_change_theme">Change theme</string>
+    <string name="home_favorites_saved">Favorites, %1$d saved</string>
+    <string name="home_favorites">Favorites</string>
+
+    <string name="section_popular">Popular</string>
+    <string name="section_popular_subtitle">What everyone is watching</string>
+    <string name="section_top_rated">Top Rated</string>
+    <string name="section_top_rated_subtitle">Favorites of critics and viewers</string>
+    <string name="section_now_playing">Now Playing</string>
+    <string name="section_now_playing_subtitle">In theaters right now</string>
+
+    <string name="movie_rated">%1$s, rated %2$s</string>
+    <string name="movie_released">%1$s, released %2$s</string>
+    <string name="section_loading">Loading %1$s</string>
+    <string name="section_empty">No movies to show right now.</string>
+    <string name="section_error_title">Could not load %1$s</string>
+    <string name="section_error_generic">Check your connection and try again. The other lists are not affected.</string>
+    <string name="section_error_rate_limited">Too many requests. Try again in a moment.</string>
+
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Applies to every screen right away.</string>
+    <string name="appearance_mode">Theme mode</string>
+    <string name="appearance_mode_system">System</string>
+    <string name="appearance_mode_light">Light</string>
+    <string name="appearance_mode_dark">Dark</string>
+    <string name="appearance_palette">Color palette</string>
+    <string name="appearance_wallpaper">Wallpaper</string>
+    <string name="appearance_wallpaper_hint">Wallpaper colors need Android 12 or newer. This device only has the preset palettes.</string>
+</resources>

@@ -53,6 +53,10 @@ kotlin {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":designsystem"))
+    implementation(project(":feature:home"))
+
     implementation(Deps.ANDROIDX_CORE_KTX)
     implementation(Deps.ANDROIDX_LIFECYCLE_RUNTIME_KTX)
     implementation(Deps.ANDROIDX_ACTIVITY_COMPOSE)
@@ -64,6 +68,7 @@ dependencies {
     implementation(Deps.ANDROIDX_COMPOSE_UI_GRAPHICS)
     implementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
+    implementation(Deps.ANDROIDX_COMPOSE_ICON)
 
     // test and development
     testImplementation(Deps.JUNIT)
