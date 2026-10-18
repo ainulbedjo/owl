@@ -2,6 +2,8 @@
 plugins {
     id(Deps.Plugins.ANDROID_APPLICATION)
     id(Deps.Plugins.KOTLIN_COMPOSE)
+    id(Deps.Plugins.KSP)
+    id(Deps.Plugins.HILT)
 }
 
 android {
@@ -71,6 +73,10 @@ dependencies {
     implementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING_PREVIEW)
     implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
     implementation(Deps.ANDROIDX_COMPOSE_ICON)
+
+    // DI
+    implementation(Deps.HILT_ANDROID)
+    ksp(Deps.HILT_COMPILER)
 
     // test and development
     testImplementation(Deps.JUNIT)

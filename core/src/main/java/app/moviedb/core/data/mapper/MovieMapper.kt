@@ -2,8 +2,8 @@ package app.moviedb.core.data.mapper
 
 import app.moviedb.core.model.Movie
 import app.moviedb.core.model.MovieDetail
-import app.moviedb.core.network.dto.MovieDetailDto
-import app.moviedb.core.network.dto.MovieDto
+import app.moviedb.core.data.network.dto.MovieDetailDto
+import app.moviedb.core.data.network.dto.MovieDto
 import java.time.LocalDate
 
 fun MovieDto.toMovie(): Movie = Movie(

@@ -1,8 +1,8 @@
 package app.moviedb.core.data.mapper
 
-import app.moviedb.core.network.dto.GenreDto
-import app.moviedb.core.network.dto.MovieDetailDto
-import app.moviedb.core.network.dto.MovieDto
+import app.moviedb.core.data.network.dto.GenreDto
+import app.moviedb.core.data.network.dto.MovieDetailDto
+import app.moviedb.core.data.network.dto.MovieDto
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

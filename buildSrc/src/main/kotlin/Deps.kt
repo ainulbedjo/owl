@@ -20,8 +20,15 @@ object Deps {
         const val COMPOSE_BOM = "2026.09.00" // to accommodate M3 expressive
         const val MATERIAL3 = "1.5.0-beta01"
         const val NAVIGATION_COMPOSE = "2.9.8"
-        const val RETROFIT = "2.11.0"
         const val KOTLINX_SERIALIZATION = "1.11.0"
+
+        // LIBRARIES
+        const val CHUCKER = "4.2.0"
+        const val RETROFIT = "2.11.0"
+        const val LEAK_CANARY = "2.14"
+        const val HILT = "2.60.1"
+        const val KSP = "2.3.12"
+        const val OKHTTP = "5.5.0"
     }
 
     object Plugins {
@@ -29,6 +36,8 @@ object Deps {
         const val KOTLIN_COMPOSE = "org.jetbrains.kotlin.plugin.compose"
         const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
         const val ANDROID_LIBRARY = "com.android.library"
+        const val HILT = "com.google.dagger.hilt.android"
+        const val KSP = "com.google.devtools.ksp"
     }
 
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
@@ -57,8 +66,18 @@ object Deps {
     const val ANDROIDX_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
 
+    // DI
+    const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.HILT}"
+    const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT}"
+
     // LIBRARIES AND TOOLING
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
+    const val RETROFIT_SERIALIZATION_CONVERTER =
+        "com.squareup.retrofit2:converter-kotlinx-serialization:${Versions.RETROFIT}"
     const val KOTLINX_SERIALIZATION_JSON =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATION}"
+    const val CHUCKER = "com.github.chuckerteam.chucker:library:${Versions.CHUCKER}"
+    const val CHUCKER_RELEASE = "com.github.chuckerteam.chucker:library-no-op:${Versions.CHUCKER}"
+    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
+    const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP}"
 }

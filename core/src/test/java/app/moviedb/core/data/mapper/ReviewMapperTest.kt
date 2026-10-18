@@ -1,7 +1,7 @@
 package app.moviedb.core.data.mapper
 
-import app.moviedb.core.network.dto.AuthorDetailsDto
-import app.moviedb.core.network.dto.ReviewDto
+import app.moviedb.core.data.network.dto.AuthorDetailsDto
+import app.moviedb.core.data.network.dto.ReviewDto
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

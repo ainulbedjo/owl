@@ -4,4 +4,6 @@ plugins {
     id(Deps.Plugins.KOTLIN_COMPOSE) version Deps.Versions.KOTLIN apply false
     id(Deps.Plugins.ANDROID_LIBRARY) version Deps.Versions.AGP apply false
     id(Deps.Plugins.KOTLIN_SERIALIZATION) version Deps.Versions.KOTLIN apply false
+    id(Deps.Plugins.KSP) version Deps.Versions.KSP apply false
+    id(Deps.Plugins.HILT) version Deps.Versions.HILT apply false
 }

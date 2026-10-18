@@ -3,7 +3,7 @@ package app.moviedb.core.data.mapper
 import app.moviedb.core.common.ImageSize
 import app.moviedb.core.common.TmdbImage
 import app.moviedb.core.model.Review
-import app.moviedb.core.network.dto.ReviewDto
+import app.moviedb.core.data.network.dto.ReviewDto
 import java.time.LocalDate
 import java.time.OffsetDateTime
 

@@ -1,9 +1,8 @@
-package app.moviedb.core.network.dto
+package app.moviedb.core.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/** Envelope shared by popular, top_rated and now_playing. `dates` of now_playing is ignored. */
 @Serializable
 data class MovieListDto(
     val page: Int = 1,

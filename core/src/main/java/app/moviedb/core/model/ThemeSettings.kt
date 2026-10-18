@@ -3,8 +3,7 @@ package app.moviedb.core.model
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
 /**
- * The viewer's theme choice, stored in DataStore.
- *
+ * The user's theme choice, stored in DataStore.
  * [paletteId] names a palette in the design system. The wallpaper palette needs API 31+.
  */
 data class ThemeSettings(

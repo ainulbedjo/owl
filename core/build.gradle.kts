@@ -4,6 +4,8 @@ import java.util.Properties
 plugins {
     id(Deps.Plugins.ANDROID_LIBRARY)
     id(Deps.Plugins.KOTLIN_SERIALIZATION)
+    id(Deps.Plugins.KSP)
+    id(Deps.Plugins.HILT)
 }
 
 android {
@@ -25,6 +27,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "ACCESS_TOKEN", "\"${localProperties.getProperty("access_token", "")}\"")
         buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("api_key", "")}\"")
+        buildConfigField("String", "BASE_URL", "\"${localProperties.getProperty("base_url", "")}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -38,7 +41,18 @@ android {
 
 // No Compose here: this module is data and logic only. UI lives in :designsystem and the features.
 dependencies {
+    implementation(Deps.RETROFIT)
+    implementation(Deps.RETROFIT_SERIALIZATION_CONVERTER)
     implementation(Deps.KOTLINX_SERIALIZATION_JSON)
+
+    // DI
+    implementation(Deps.HILT_ANDROID)
+    ksp(Deps.HILT_COMPILER)
+
+    // Http & inspector
+    debugImplementation(Deps.CHUCKER)
+    releaseImplementation(Deps.CHUCKER_RELEASE)
+    implementation(Deps.OKHTTP)
 
     // test and development
     testImplementation(Deps.JUNIT)
