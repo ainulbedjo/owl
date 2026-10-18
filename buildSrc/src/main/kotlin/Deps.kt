@@ -1,3 +1,5 @@
+// need to suppress, cuz the props will be generated into a .class file
+@Suppress("unused")
 object Deps {
     const val APP_NAME = "MovieDB"
 
@@ -17,11 +19,14 @@ object Deps {
         const val ACTIVITY_COMPOSE = "1.13.0"
         const val COMPOSE_BOM = "2026.09.00" // to accommodate M3 expressive
         const val RETROFIT = "2.11.0"
+        const val KOTLINX_SERIALIZATION = "1.11.0"
     }
 
     object Plugins {
         const val ANDROID_APPLICATION = "com.android.application"
         const val KOTLIN_COMPOSE = "org.jetbrains.kotlin.plugin.compose"
+        const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
+        const val ANDROID_LIBRARY = "com.android.library"
     }
 
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
@@ -45,4 +50,6 @@ object Deps {
         "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
 
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
+    const val KOTLINX_SERIALIZATION_JSON =
+        "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATION}"
 }

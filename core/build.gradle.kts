@@ -1,17 +1,33 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
-    id("com.android.library")
+    id(Deps.Plugins.ANDROID_LIBRARY)
+    id(Deps.Plugins.KOTLIN_SERIALIZATION)
 }
 
 android {
     namespace = "app.moviedb.core"
     compileSdk {
-        version = release(37)
+        version = release(Deps.COMPILE_SDK)
+    }
+
+    val localProperties = Properties().apply {
+        val file = rootProject.file("local.properties")
+        if (file.exists()) {
+            load(FileInputStream(file))
+        }
     }
 
     defaultConfig {
-        minSdk = 30
+        minSdk = Deps.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "ACCESS_TOKEN", "\"${localProperties.getProperty("access_token", "")}\"")
+        buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("api_key", "")}\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -21,10 +37,13 @@ android {
 }
 
 dependencies {
+    implementation(Deps.KOTLINX_SERIALIZATION_JSON)
+
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("com.google.android.material:material:1.10.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    implementation(Deps.ANDROIDX_CORE_KTX)
+    implementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
+    implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
+    testImplementation(Deps.JUNIT)
+    androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
+    androidTestImplementation(Deps.ANDROIDX_JUNIT)
 }
