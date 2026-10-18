@@ -15,7 +15,7 @@ object Deps {
         const val ESPRESSO_CORE = "3.5.1"
         const val LIFECYCLE_RUNTIME_KTX = "2.11.0"
         const val ACTIVITY_COMPOSE = "1.13.0"
-        const val COMPOSE_BOM = "2024.09.00"
+        const val COMPOSE_BOM = "2026.09.00" // to accommodate M3 expressive
         const val RETROFIT = "2.11.0"
     }
 

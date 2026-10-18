@@ -21,11 +21,11 @@ Docs are the source of truth. If code and docs disagree, fix the doc in the same
 | Area | Document | Status |
 |---|---|---|
 | Requirements | [requirements/requirements.md](requirements/requirements.md) | Done |
-| Architecture | `architecture.md` | Planned |
-| Libraries | `libraries.md` | Planned |
-| Features | `features/home.md`, `features/detail.md`, `features/favorites.md` | Planned |
+| Architecture | [architecture.md](architecture.md) | Done |
+| Libraries | [libraries.md](libraries.md) | Done |
+| Features | [features/home.md](features/home.md), [features/detail.md](features/detail.md), [features/favorites.md](features/favorites.md) | Done |
 | Design | `design/design_system.md`, `design/components/*.md` | Planned |
-| API | `api/tmdb_overview.md`, `api/movie_lists.md`, `api/movie_detail.md`, `api/movie_reviews.md` | Planned |
+| API | [api/tmdb_overview.md](api/tmdb_overview.md), [api/movie_lists.md](api/movie_lists.md), [api/movie_detail.md](api/movie_detail.md), [api/movie_reviews.md](api/movie_reviews.md) | Done |
 
 Links turn into real links as each document is written.
 
@@ -35,6 +35,7 @@ Links turn into real links as each document is written.
 - Home carousels load page 1 only, with no pagination.
 - Multi-module project with a shared `:core` module.
 - Stack: Retrofit, kotlinx.serialization, Coil, Room, Hilt.
+- Errors: only no-connection (`IOException`) opens a bottom sheet. Server and other errors stay as inline cards with Retry. See [api/tmdb_overview.md](api/tmdb_overview.md#where-errors-are-shown).
 - UI follows Material 3 Expressive. The PDF wireframe is a layout guide, not a visual spec.
 
 ## Layout
