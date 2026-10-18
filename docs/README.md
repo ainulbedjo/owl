@@ -26,6 +26,7 @@ Docs are the source of truth. If code and docs disagree, fix the doc in the same
 | Features | [features/home.md](features/home.md), [features/detail.md](features/detail.md), [features/favorites.md](features/favorites.md) | Done |
 | Design | `design/design_system.md`, `design/components/*.md` | Planned |
 | API | [api/tmdb_overview.md](api/tmdb_overview.md), [api/movie_lists.md](api/movie_lists.md), [api/movie_detail.md](api/movie_detail.md), [api/movie_reviews.md](api/movie_reviews.md) | Done |
+| To do | [todo/data-fetch.md](todo/data-fetch.md) | Open |
 
 Links turn into real links as each document is written.
 
@@ -53,3 +54,10 @@ docs/
     components/
   api/
 ```
+
+## Resources
+- [Material 3 Expressive](https://m3.material.io/blog/building-with-m3-expressive) | M3 Expressive design system
+- [Moviebase.app](https://moviebase.app/) | Direct inspiration for research purposes
+- [ip-as-logo-skill](https://github.com/s1dashu/ip-as-logo-skill) | Skill to create the logo used.
+- [Icon kitchen](https://icon.kitchen/) | To create a ```icon/ic_launcher``` resources used in the codebase.
+- [themoviedb.org](https://www.themoviedb.org/) | API and data seeding.
