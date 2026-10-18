@@ -1,15 +1,17 @@
 plugins {
-    id("com.android.library")
+    id(Deps.Plugins.ANDROID_LIBRARY)
+    id(Deps.Plugins.KOTLIN_COMPOSE)
+    id(Deps.Plugins.KOTLIN_SERIALIZATION)
 }
 
 android {
     namespace = "app.moviedb.detail"
     compileSdk {
-        version = release(37)
+        version = release(Deps.COMPILE_SDK)
     }
 
     defaultConfig {
-        minSdk = 30
+        minSdk = Deps.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -17,14 +19,32 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("com.google.android.material:material:1.10.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    implementation(project(":core"))
+    implementation(project(":designsystem"))
+    implementation(Deps.KOTLINX_SERIALIZATION_JSON)
+    implementation(Deps.ANDROIDX_NAVIGATION_COMPOSE)
+
+    @Suppress("AvoidDuplicateDependencies")
+    implementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
+    implementation(Deps.ANDROIDX_COMPOSE_UI)
+    implementation(Deps.ANDROIDX_COMPOSE_UI_GRAPHICS)
+    implementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING_PREVIEW)
+    implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
+    implementation(Deps.ANDROIDX_COMPOSE_ICON)
+
+    // test and development
+    testImplementation(Deps.JUNIT)
+    androidTestImplementation(Deps.ANDROIDX_JUNIT)
+    androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
+    @Suppress("AvoidDuplicateDependencies")
+    androidTestImplementation(platform(Deps.ANDROIDX_COMPOSE_BOM))
+    androidTestImplementation(Deps.ANDROIDX_COMPOSE_UI_TEST_JUNIT4)
+    debugImplementation(Deps.ANDROIDX_COMPOSE_UI_TOOLING)
+    debugImplementation(Deps.ANDROIDX_COMPOSE_UI_TEST_MANIFEST)
 }

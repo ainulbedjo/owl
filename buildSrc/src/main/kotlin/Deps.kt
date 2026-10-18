@@ -19,6 +19,7 @@ object Deps {
         const val ACTIVITY_COMPOSE = "1.13.0"
         const val COMPOSE_BOM = "2026.09.00" // to accommodate M3 expressive
         const val MATERIAL3 = "1.5.0-beta01"
+        const val NAVIGATION_COMPOSE = "2.9.8"
         const val RETROFIT = "2.11.0"
         const val KOTLINX_SERIALIZATION = "1.11.0"
     }
@@ -36,6 +37,7 @@ object Deps {
     const val ANDROIDX_ACTIVITY_COMPOSE =
         "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
 
+    // COMPOSE
     const val ANDROIDX_COMPOSE_BOM = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
     const val ANDROIDX_COMPOSE_UI = "androidx.compose.ui:ui"
     const val ANDROIDX_COMPOSE_UI_GRAPHICS = "androidx.compose.ui:ui-graphics"
@@ -45,13 +47,17 @@ object Deps {
     const val ANDROIDX_COMPOSE_UI_TEST_JUNIT4 = "androidx.compose.ui:ui-test-junit4"
     const val ANDROIDX_COMPOSE_MATERIAL3 =
         "androidx.compose.material3:material3:${Versions.MATERIAL3}"
+    const val ANDROIDX_NAVIGATION_COMPOSE =
+        "androidx.navigation:navigation-compose:${Versions.NAVIGATION_COMPOSE}"
     const val ANDROIDX_COMPOSE_ICON = "androidx.compose.material:material-icons-extended"
 
+    // UNIT TESTING
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
     const val ANDROIDX_JUNIT = "androidx.test.ext:junit:${Versions.JUNIT_EXT}"
     const val ANDROIDX_ESPRESSO_CORE =
         "androidx.test.espresso:espresso-core:${Versions.ESPRESSO_CORE}"
 
+    // LIBRARIES AND TOOLING
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val KOTLINX_SERIALIZATION_JSON =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KOTLINX_SERIALIZATION}"

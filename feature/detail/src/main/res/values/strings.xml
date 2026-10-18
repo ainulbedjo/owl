@@ -1,0 +1,38 @@
+<resources>
+    <string name="detail_back">Back</string>
+    <string name="detail_overview">Overview</string>
+    <string name="detail_no_overview">No description available.</string>
+    <string name="detail_runtime">%1$d min</string>
+    <string name="detail_loading_movie">Loading movie</string>
+    <string name="detail_not_found">This movie is not available.</string>
+
+    <string name="detail_error_movie_title">Could not load this movie</string>
+    <string name="detail_error_reviews_title">Could not load reviews</string>
+    <string name="detail_error_generic">Check your connection and try again.</string>
+    <string name="detail_error_rate_limited">Too many requests. Try again in a moment.</string>
+
+    <string name="detail_reviews">Reviews</string>
+    <string name="detail_loading_reviews">Loading reviews</string>
+    <string name="detail_reviews_empty_title">No reviews yet</string>
+    <string name="detail_reviews_empty_hint">Nobody has reviewed this movie so far.</string>
+    <string name="detail_review_no_rating">No rating</string>
+    <string name="detail_read_more">Read more</string>
+    <string name="detail_show_less">Show less</string>
+    <string name="detail_read_more_description">Read more, review by %1$s</string>
+
+    <string name="detail_save">Save</string>
+    <string name="detail_saved">Saved</string>
+    <string name="detail_state_on">On</string>
+    <string name="detail_state_off">Off</string>
+    <string name="detail_share">Share</string>
+    <string name="detail_saved_message">Saved to favorites</string>
+    <string name="detail_removed_message">Removed from favorites</string>
+
+    <string name="share_title">Share</string>
+    <string name="share_messages">Messages</string>
+    <string name="share_copy_link">Copy link</string>
+    <string name="share_email">Email</string>
+    <string name="share_more">More</string>
+    <string name="share_link_copied">Link copied</string>
+    <string name="share_no_app">No app available to share with</string>
+</resources>
