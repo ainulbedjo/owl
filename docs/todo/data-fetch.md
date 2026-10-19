@@ -51,7 +51,7 @@ Done when: a unit test with MockWebServer returns a mapped `Movie` list for a sa
 
 - [x] An interface plus an implementation: `popular()`, `topRated()`, `nowPlaying()`, `movieDetail(id)`, `reviews(id)`. It returns domain models, never DTOs.
 - [x] Reviews: a 404 means "no reviews", return an empty list, not an error ([detail.md](../features/detail.md#reviews)).
-- [ ] A fake implementation for ViewModel tests.
+- [x] A fake implementation for ViewModel tests.
 
 Done when: repository tests pass against the fake API from step 2.
 
@@ -103,9 +103,9 @@ Done when: posters appear, and a movie with no poster still shows the colored pl
 
 Needed by Detail's Save button and Home's badge count. Spec: [architecture.md](../architecture.md#favorites-room) and [features/favorites.md](../features/favorites.md).
 
-- [ ] `FavoriteMovieEntity`, `FavoriteDao`, and the database in `:core/database`.
-- [ ] `FavoriteRepository`: `observeIsFavorite(id)`, `observeCount()`, `observeAll()`, `toggle(movie)` (atomic), `remove(id)`.
-- [ ] Wire `isFavorite` in `DetailViewModel` and `favoriteCount` in `HomeViewModel` from these Flows.
+- [x] `FavoriteMovieEntity`, `FavoriteDao`, and the database in `:core/data/local`. The schema is exported to `core/schemas`.
+- [x] `FavoriteRepository`: `observeIsFavorite(id)`, `observeCount()`, `observeAll()`, `toggle(movie)` (atomic, returns whether the movie is now a favorite), `remove(id)`. Bound in `RepositoryModule`; the database is in `DatabaseModule`.
+- [x] Wire `isFavorite` in `DetailViewModel` and `favoriteCount` in `HomeViewModel` from these Flows.
 
 Done when: Save on Detail survives an app restart, and Home's badge follows it.
 
@@ -113,10 +113,10 @@ Done when: Save on Detail survives an app restart, and Home's badge follows it.
 
 The layout is built on sample data: `FavoritesScreen`, `FavoriteRow`, the empty, loading and error states, previews, and navigation (`FavoritesRoute`, wired in `AppNavHost`). What is left is the data:
 
-- [ ] `FavoritesViewModel` (`@HiltViewModel`): `observeAll()` mapped to `Content` or `Empty`, a `catch` mapped to `Error`, `stateIn(viewModelScope, WhileSubscribed(5_000), Loading)`. Spec: [features/favorites.md](../features/favorites.md#viewmodel).
-- [ ] `onRemoveClick(id)` calls `FavoriteRepository.remove(id)` and sends the "Removed from favorites" message.
-- [ ] In `FavoritesNavigation.kt`, replace the sample state in `FavoritesEntry` with the ViewModel.
-- [ ] Tests for the ViewModel (cases in [favorites.md](../features/favorites.md#tests)).
+- [x] `FavoritesViewModel` (`@HiltViewModel`): `observeAll()` mapped to `Content` or `Empty`, a `catch` mapped to `Error`, `stateIn(viewModelScope, WhileSubscribed(5_000), Loading)`. Spec: [features/favorites.md](../features/favorites.md#viewmodel).
+- [x] `onRemoveClick(id)` calls `FavoriteRepository.remove(id)` and sends the "Removed from favorites" message.
+- [x] In `FavoritesNavigation.kt`, replace the sample state in `FavoritesEntry` with the ViewModel.
+- [x] Tests for the ViewModel (cases in [favorites.md](../features/favorites.md#tests)).
 
 ## 9. Tests to add
 

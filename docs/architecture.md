@@ -208,7 +208,7 @@ Favorites are stored as a **snapshot**, so the list works offline and needs no A
 | `voteAverage` | `Double` | Not shown in the Favorites list today. Stored so the snapshot maps to the same `Movie` model as the API lists. |
 | `addedAt` | `Long` | Epoch millis. Sorts newest first. |
 
-`FavoriteDao` exposes `observeAll(): Flow<List<FavoriteMovieEntity>>` ordered by `addedAt` descending, `observeCount(): Flow<Int>`, `observeIsFavorite(id): Flow<Boolean>`, `insert` (replace on conflict), and `delete(id)`. `FavoriteRepository` wraps them as `observeAll()`, `observeCount()`, `observeIsFavorite(id)`, `remove(id)`, and `toggle(movie)`. The toggle checks and writes inside one database transaction. Because the list, the count, and the heart state are all Flows, Home, Detail, and Favorites update instantly without refresh calls.
+`FavoriteDao` exposes `observeAll(): Flow<List<FavoriteMovieEntity>>` ordered by `addedAt` descending, `observeCount(): Flow<Int>`, `observeIsFavorite(id): Flow<Boolean>`, `insert` (replace on conflict), and `delete(id)`. `FavoriteRepository` wraps them as `observeAll()`, `observeCount()`, `observeIsFavorite(id)`, `remove(id)`, and `toggle(movie)`, which returns whether the movie is now a favorite. The toggle checks and writes inside one database transaction. Because the list, the count, and the heart state are all Flows, Home, Detail, and Favorites update instantly without refresh calls.
 
 Database changes after the first release need a migration. Until then the schema is exported (`exportSchema = true`) so migrations can be written and tested.
 
