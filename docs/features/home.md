@@ -129,7 +129,7 @@ It is a small addition that shows Material 3 Expressive theming.
 - Palette: a grid of swatches (Wallpaper, Violet, Ocean, Lagoon, Forest, Sunset, Rose). The selected swatch has a ring and a check mark.
 - Changes apply at once, with no confirm button.
 - **Wallpaper** needs Android 12 (API 31). On Android 11 (`MIN_SDK` is 30) the swatch is hidden.
-- Visible-only UI state (is the sheet open) lives in the screen with `rememberSaveable`. The saved settings live in DataStore.
+- Visible-only UI state (is the sheet open) lives in the screen with `rememberSaveable`. The saved settings live in the local database (Room), and `MainViewModel` in `:app` owns them.
 
 Details of the color system will be in `design/design_system.md` (planned).
 

@@ -76,7 +76,6 @@ Build configuration follows the existing setup: `buildSrc/Deps.kt` is the single
 :core  (app.moviedb.core)            no Compose
   network/       Retrofit service, DTOs, auth interceptor, safeApiCall
   database/      Room database, FavoriteMovieEntity, FavoriteDao
-  datastore/     Theme settings storage
   data/          MovieRepository, FavoriteRepository, ThemeRepository, mappers
   model/         Movie, MovieDetail, Review, ThemeSettings
   common/        AppError, SectionState, TmdbImage (image URL builder)
@@ -101,7 +100,7 @@ Each feature holds only presentation code: a route, a screen composable, a ViewM
 ## Layers and data flow
 
 ```
-Compose UI  ──events──>  ViewModel  ──calls──>  Repository  ──>  Retrofit API / Room / DataStore
+Compose UI  ──events──>  ViewModel  ──calls──>  Repository  ──>  Retrofit API / Room
     ^                       │                       │
     └──── UiState (StateFlow) ◄──── maps DTO to domain model, errors to AppError
 ```
@@ -146,6 +145,16 @@ sealed interface SectionState<out T> {
 ```
 
 A list that comes back empty is `Empty`, not `Error`. Retry is available only on `Error`.
+
+### Offline sheet rules (`OfflineAwareViewModel`)
+
+Home and Detail follow the same rules for the no-connection sheet, so they share one parent class, `OfflineAwareViewModel` in `:core/common`. A ViewModel that loads from the network extends it and does three things:
+
+1. Loads each part with `loadOnce(key) { ... }`, which skips the call if that part is already loading, so a second tap on Retry does nothing.
+2. Passes every result to `handleOfflineSheet(result)`. Only `AppError.Network` opens the sheet, and one sheet serves the whole screen.
+3. Implements `setOfflineSheetVisible(...)` (write the flag into its own UI state) and `reloadFailedParts()` (what "Try again" reloads).
+
+The parent supplies `onTryAgain()` and `onDismissOfflineSheet()`, and closes the sheet when a part loads after "Try again". The UI state classes still carry `offlineSheetVisible`, so screens and previews are unchanged. ViewModels with no network calls (Favorites, theme) do not extend it.
 
 ### Screen state
 
@@ -212,15 +221,15 @@ Favorites are stored as a **snapshot**, so the list works offline and needs no A
 
 Database changes after the first release need a migration. Until then the schema is exported (`exportSchema = true`) so migrations can be written and tested.
 
-### Theme settings (DataStore)
+### Theme settings (Room)
 
 The prototype includes a theme picker (mode and palette). It is an optional addition.
 
 - `ThemeSettings(mode: ThemeMode, paletteId: String)`, with `ThemeMode` being `SYSTEM`, `LIGHT`, or `DARK`.
-- `ThemeRepository` exposes `Flow<ThemeSettings>` and `suspend fun update(...)`, backed by DataStore Preferences. Room would be overkill for two values.
-- `MainActivity` collects the settings, works out whether the theme is dark, and passes `paletteId` and `darkTheme` to `MoviedbTheme` in `:designsystem`. `ThemeSettings` itself stays in `:core`. Features read `MaterialTheme.colorScheme` and never know which palette is active.
+- `ThemeRepository` exposes `Flow<ThemeSettings>` and `suspend fun update(...)`. It is stored in Room, in one row of the `theme_settings` table with two text columns: the `ThemeMode` name and the palette id. A name the app does not know falls back to the default, so an old or odd value never crashes. Room is already in the project, so this needs no second storage library.
+- `MainViewModel` in `:app` reads the settings and saves changes. `MainActivity` collects them, works out whether the theme is dark, and passes `paletteId` and `darkTheme` to `MoviedbTheme` in `:designsystem`. `ThemeSettings` itself stays in `:core`. Features read `MaterialTheme.colorScheme` and never know which palette is active.
 - Palettes are written out by hand: one file per palette in `:designsystem/.../theme/palette/`, each with a light and a dark `ColorScheme`. A unit test checks text contrast for every palette.
-- To avoid a flash of the wrong theme at startup, keep the splash screen visible until the first settings value arrives.
+- To avoid a flash of the wrong theme at startup, `MainActivity` draws nothing until the saved settings are read. Room answers within a frame or two.
 - The wallpaper-based palette needs Android 12 (API 31). `MIN_SDK` is 30, so that option is hidden when `Build.VERSION.SDK_INT < 31`.
 
 ## Navigation
@@ -257,9 +266,8 @@ Hilt provides every dependency. Modules live in `:core/di`:
 | Module | Provides |
 |---|---|
 | `NetworkModule` | `OkHttpClient` (with the auth interceptor), `Json`, `Retrofit`, `MovieApi`. |
-| `DatabaseModule` | `MovieDatabase`, `FavoriteDao`. |
-| `DataStoreModule` | The DataStore instance. |
-| `RepositoryModule` | `@Binds` for each repository interface to its implementation. |
+| `DatabaseModule` | `MovieDatabase`, `FavoriteDao`, `ThemeDao`. |
+| `RepositoryModule` | Each repository interface bound to its implementation (`MovieRepository`, `FavoriteRepository`, `ThemeRepository`). |
 
 ViewModels use `@HiltViewModel` with constructor injection and are obtained with `hiltViewModel()`.
 
@@ -278,7 +286,7 @@ The TMDB read access token comes from `local.properties`, which is not committed
 ## Threading
 
 - Retrofit suspend functions switch off the main thread themselves.
-- Room and DataStore suspend and Flow APIs are main-safe.
+- Room suspend and Flow APIs are main-safe.
 - Repositories do not hard-code dispatchers. Anything that needs one takes it by constructor, so tests can replace it.
 - `StateFlow`s exposed to the UI use `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initial)` where they are derived from other flows.
 

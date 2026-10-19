@@ -15,7 +15,7 @@ Each choice here has a reason and a rejected alternative. How the libraries fit 
 | Network | Retrofit, OkHttp |
 | Parsing | kotlinx.serialization |
 | Images | Coil 3 |
-| Local data | Room, DataStore Preferences |
+| Local data | Room |
 | Async | Kotlin coroutines and Flow |
 | Startup | AndroidX SplashScreen |
 | Tests | JUnit 4, kotlinx-coroutines-test, Turbine, MockK |
@@ -64,13 +64,12 @@ Each choice here has a reason and a rejected alternative. How the libraries fit 
 | Library | Role | Why | Not chosen |
 |---|---|---|---|
 | **Room** (with KSP) | Stores the favorites snapshot. | Observable queries return `Flow`, so the Favorites list and the heart toggle update instantly. Compile-time checked SQL. A Jetpack library. | Raw SQLite (boilerplate), or saving a JSON list in preferences (no queries, no ordering, not safe under concurrent writes). |
-| **DataStore Preferences** | Stores the theme mode and palette. | Two small key-value settings, read as a `Flow`. Safe replacement for `SharedPreferences`. | SharedPreferences (synchronous, no `Flow`), or Room for two values (overkill). |
 
 ### Async
 
 | Library | Role | Why | Not chosen |
 |---|---|---|---|
-| **Kotlin coroutines and Flow** | Async work and observable state. | Used by Retrofit, Room, DataStore, and Compose. `StateFlow` carries UI state. | RxJava (legacy for new Android code). |
+| **Kotlin coroutines and Flow** | Async work and observable state. | Used by Retrofit, Room, and Compose. `StateFlow` carries UI state. | RxJava (legacy for new Android code). |
 
 ### Testing
 
@@ -94,7 +93,7 @@ The project uses **AGP 9.x with built-in Kotlin** (see `Deps.Versions.AGP`). Thi
 5. **Plugin placement in a multi-module build.** The Hilt Gradle plugin goes in `:app`. Modules with `@HiltViewModel` or `@Module` classes need `hilt-android` and the KSP `hilt-compiler`. Check whether any library module also needs the plugin (for example one with `@AndroidEntryPoint`).
 6. **Serialization compiler plugin** (`org.jetbrains.kotlin.plugin.serialization`) in every module that declares `@Serializable` classes: `:core` for DTOs and each feature for its route.
 7. **Retrofit version.** `Deps.kt` pins `2.11.0`, and a newer major release exists on Maven. Both work with OkHttp. Decide when adding the converter, and keep Retrofit, the converter, and OkHttp consistent.
-8. **Avoid pre-release versions.** Some libraries (for example kotlinx.serialization and DataStore) may show release candidates as the newest tag. Pin the newest stable one.
+8. **Avoid pre-release versions.** Some libraries (for example kotlinx.serialization) may show release candidates as the newest tag. Pin the newest stable one.
 9. **Experimental Material 3 APIs.** Opt in only in the files that use Expressive APIs, so a future signature change touches few files.
 
 ## Adding a library
