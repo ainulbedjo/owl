@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.OfflineAwareViewModel
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.common.state.toListSectionState
+import app.moviedb.core.common.state.toSectionState
 import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.MovieDetail
@@ -109,22 +111,13 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun showMovie(result: AppResult<MovieDetail>) {
-        val movie = when (result) {
-            is AppResult.Success -> SectionState.Content(result.data)
-            // A 404 stays an Error(NotFound): the screen shows "not available" with no Retry.
-            is AppResult.Failure -> SectionState.Error(result.error)
-        }
-        _state.update { it.copy(movie = movie) }
+        // A 404 stays an Error(NotFound): the screen shows "not available" with no Retry.
+        _state.update { it.copy(movie = result.toSectionState()) }
         handleOfflineSheet(result)
     }
 
     private fun showReviews(result: AppResult<List<Review>>) {
-        val reviews = when (result) {
-            is AppResult.Success ->
-                if (result.data.isEmpty()) SectionState.Empty else SectionState.Content(result.data)
-            is AppResult.Failure -> SectionState.Error(result.error)
-        }
-        _state.update { it.copy(reviews = reviews) }
+        _state.update { it.copy(reviews = result.toListSectionState()) }
         handleOfflineSheet(result)
     }
 }

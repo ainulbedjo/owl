@@ -3,6 +3,7 @@ package app.moviedb.designsystem.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,11 +42,14 @@ fun RemoteImage(
 ) {
     if (url == null) return
 
+    val context = LocalPlatformContext.current
+    // Built once per url, not on every recomposition.
+    val request = remember(url) {
+        ImageRequest.Builder(context).data(url).crossfade(true).build()
+    }
+
     AsyncImage(
-        model = ImageRequest.Builder(LocalPlatformContext.current)
-            .data(url)
-            .crossfade(true)
-            .build(),
+        model = request,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         modifier = modifier,

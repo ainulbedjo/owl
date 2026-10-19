@@ -136,16 +136,16 @@ fun DetailScreen(
             )
         }
 
-          DetailToolbar(
-              isFavorite = state.isFavorite,
-              enabled = movie != null,
-              onFavoriteClick = onFavoriteClick,
-              onShareClick = onShareClick,
-              modifier = Modifier
-                  .align(Alignment.BottomCenter)
-                  .navigationBarsPadding()
-                  .padding(bottom = 20.dp),
-          )
+        DetailToolbar(
+            isFavorite = state.isFavorite,
+            enabled = movie != null,
+            onFavoriteClick = onFavoriteClick,
+            onShareClick = onShareClick,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 20.dp),
+        )
 
         SnackbarHost(
             hostState = snackbarHostState,

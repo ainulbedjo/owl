@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.compose")
+    id(Deps.Plugins.ANDROID_LIBRARY)
+    id(Deps.Plugins.KOTLIN_COMPOSE)
     id(Deps.Plugins.KOTLIN_SERIALIZATION)
     id(Deps.Plugins.KSP)
 }
@@ -8,11 +8,11 @@ plugins {
 android {
     namespace = "app.moviedb.home"
     compileSdk {
-        version = release(37)
+        version = release(Deps.COMPILE_SDK)
     }
 
     defaultConfig {
-        minSdk = 30
+        minSdk = Deps.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

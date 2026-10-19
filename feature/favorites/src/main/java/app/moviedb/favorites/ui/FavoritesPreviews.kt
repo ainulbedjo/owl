@@ -10,12 +10,8 @@ import app.moviedb.favorites.data.sampleFavorites
 import app.moviedb.favorites.data.sampleFavoritesState
 
 @Composable
-private fun PreviewFavorites(
-    state: FavoritesUiState,
-    dark: Boolean = false,
-    skeletonDelayMillis: Long = 0,
-) {
-    MoviedbTheme(paletteId = "violet", darkTheme = dark) {
+private fun PreviewFavorites(state: FavoritesUiState) {
+    MoviedbTheme(paletteId = "violet") {
         FavoritesScreen(
             state = state,
             onBack = {},
@@ -23,7 +19,7 @@ private fun PreviewFavorites(
             onRemoveClick = {},
             onRetry = {},
             onBrowseClick = {},
-            skeletonDelayMillis = skeletonDelayMillis,
+            skeletonDelayMillis = 0,
         )
     }
 }

@@ -5,7 +5,7 @@ import app.moviedb.core.model.Movie
 import app.moviedb.favorites.ui.FavoritesUiState
 import java.time.LocalDate
 
-// Sample data for previews and the UI-only build. Delete when FavoriteRepository exists.
+// Sample data for previews.
 val sampleFavorites = listOf(
     Movie(
         id = 2,

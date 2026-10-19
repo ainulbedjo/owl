@@ -3,9 +3,10 @@ package app.moviedb.detail.data
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.core.model.Review
+import app.moviedb.detail.ui.DetailUiState
 import java.time.LocalDate
 
-// Sample data for previews and the UI-only build. Delete when MovieRepository exists.
+// Sample data for previews.
 internal val sampleMovie = MovieDetail(
     id = 1,
     title = "Midnight Orchard",
@@ -52,7 +53,7 @@ internal val sampleReviews = listOf(
 )
 
 internal fun sampleDetailState(movieId: Int = 1) =
-    _root_ide_package_.app.moviedb.detail.ui.DetailUiState(
+    DetailUiState(
         movie = SectionState.Content(sampleMovie.copy(id = movieId)),
         reviews = SectionState.Content(sampleReviews),
     )

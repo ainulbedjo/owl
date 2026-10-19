@@ -24,7 +24,7 @@ abstract class OfflineAwareViewModel : ViewModel() {
         setOfflineSheetVisible(false)
     }
 
-    fun loadOnce(key: Any, block: suspend () -> Unit) {
+    protected fun loadOnce(key: Any, block: suspend () -> Unit) {
         if (!inFlight.add(key)) return
 
         viewModelScope.launch {
@@ -39,10 +39,7 @@ abstract class OfflineAwareViewModel : ViewModel() {
     protected fun handleOfflineSheet(result: AppResult<*>) {
         when {
             result is AppResult.Failure && result.error == AppError.Network -> setOfflineSheetVisible(true)
-            result is AppResult.Success && retryingFromSheet -> {
-                retryingFromSheet = false
-                setOfflineSheetVisible(false)
-            }
+            result is AppResult.Success && retryingFromSheet -> onDismissOfflineSheet()
         }
     }
 }

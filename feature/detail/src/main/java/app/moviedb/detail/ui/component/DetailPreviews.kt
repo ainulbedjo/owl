@@ -11,8 +11,8 @@ import app.moviedb.detail.ui.DetailUiState
 import app.moviedb.detail.data.sampleDetailState
 
 @Composable
-private fun PreviewDetail(state: DetailUiState, dark: Boolean = false) {
-    MoviedbTheme(paletteId = "violet", darkTheme = dark) {
+private fun PreviewDetail(state: DetailUiState) {
+    MoviedbTheme(paletteId = "violet") {
         DetailScreen(
             state = state,
             onBack = {},

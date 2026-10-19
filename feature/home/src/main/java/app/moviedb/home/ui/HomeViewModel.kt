@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.OfflineAwareViewModel
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.common.state.toListSectionState
 import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.Movie
@@ -54,12 +55,7 @@ class HomeViewModel @Inject constructor(
 
         val result = fetch(section)
 
-        val sectionState = when (result) {
-            is AppResult.Success ->
-                if (result.data.isEmpty()) SectionState.Empty else SectionState.Content(result.data)
-            is AppResult.Failure -> SectionState.Error(result.error)
-        }
-        _state.update { it.withSection(section, sectionState) }
+        _state.update { it.withSection(section, result.toListSectionState()) }
         handleOfflineSheet(result)
     }
 

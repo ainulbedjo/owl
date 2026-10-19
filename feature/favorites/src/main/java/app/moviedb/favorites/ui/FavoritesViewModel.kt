@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.common.state.toSectionState
 import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,7 @@ class FavoritesViewModel @Inject constructor(
      * seconds after the screen goes away, and restarts from the database when it returns.
      */
     val state: StateFlow<FavoritesUiState> = reload
-        .flatMapLatest { readFavorites() }
+        .flatMapLatest { attempt -> readFavorites(showLoading = attempt > 0) }
         .map { FavoritesUiState(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS), FavoritesUiState())
 
@@ -60,11 +61,14 @@ class FavoritesViewModel @Inject constructor(
         reload.update { it + 1 }
     }
 
-    private fun readFavorites(): Flow<SectionState<List<Movie>>> = favorites.observeAll()
-        .map<List<Movie>, SectionState<List<Movie>>> { list ->
-            if (list.isEmpty()) SectionState.Empty else SectionState.Content(list)
-        }
-        .onStart { emit(SectionState.Loading) }
+    /**
+     * [showLoading] is false for the first read: the state already starts as `Loading`. It is true
+     * for Retry. It is never set when the screen comes back, so returning to Favorites keeps the
+     * list on screen instead of flashing a skeleton while Room answers.
+     */
+    private fun readFavorites(showLoading: Boolean): Flow<SectionState<List<Movie>>> = favorites.observeAll()
+        .map { it.toSectionState() }
+        .onStart { if (showLoading) emit(SectionState.Loading) }
         // A failing read becomes an error card, never a crash.
         .catch { emit(SectionState.Error(AppError.Unexpected)) }
 

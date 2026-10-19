@@ -8,12 +8,11 @@ import app.moviedb.core.model.MovieDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class FavoriteRepositoryImpl internal constructor(
+/** [now] is the clock for `addedAt`. Tests pass their own. */
+class FavoriteRepositoryImpl(
     private val dao: FavoriteDao,
-    private val now: () -> Long,
+    private val now: () -> Long = System::currentTimeMillis,
 ) : FavoriteRepository {
-
-    constructor(dao: FavoriteDao) : this(dao, System::currentTimeMillis)
 
     override fun observeAll(): Flow<List<Movie>> =
         dao.observeAll().map { list -> list.map { it.toMovie() } }

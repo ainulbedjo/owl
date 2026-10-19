@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ThemeDao {
-    @Query("SELECT * FROM theme_settings WHERE id = 1")
+    @Query("SELECT * FROM theme_settings WHERE id = ${ThemeSettingsEntity.SINGLE_ROW_ID}")
     fun observe(): Flow<ThemeSettingsEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

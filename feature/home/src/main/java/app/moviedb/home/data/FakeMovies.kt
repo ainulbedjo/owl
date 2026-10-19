@@ -2,9 +2,10 @@ package app.moviedb.home.data
 
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.Movie
+import app.moviedb.home.ui.HomeUiState
 import java.time.LocalDate
 
-// Sample data for previews and the UI-only build. Delete when MovieRepository exists.
+// Sample data for previews.
 internal val fakeMovies = listOf(
     fake(1, "Midnight Orchard", LocalDate.of(2026, 10, 10), 8.4),
     fake(2, "The Last Lighthouse", LocalDate.of(2026, 9, 26), 7.9),
@@ -25,7 +26,7 @@ private fun fake(id: Int, title: String, date: LocalDate, rating: Double) = Movi
     rating = rating,
 )
 
-internal val sampleHomeState = _root_ide_package_.app.moviedb.home.ui.HomeUiState(
+internal val sampleHomeState = HomeUiState(
     popular = SectionState.Content(fakeMovies),
     topRated = SectionState.Content(fakeMovies.sortedByDescending { it.rating }),
     nowPlaying = SectionState.Content(fakeMovies.reversed()),
