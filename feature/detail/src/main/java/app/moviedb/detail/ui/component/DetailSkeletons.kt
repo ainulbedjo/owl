@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +38,7 @@ private fun SkeletonBar(width: Dp?, height: Dp, modifier: Modifier = Modifier) {
 
 /** Stands in for the title, chips, and overview while the movie loads. */
 @Composable
-internal fun MovieSkeleton(modifier: Modifier = Modifier) {
+fun MovieSkeleton(modifier: Modifier = Modifier) {
     val description = stringResource(R.string.detail_loading_movie)
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),

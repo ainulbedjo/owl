@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.data
 
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.MovieDetail
@@ -51,7 +51,8 @@ internal val sampleReviews = listOf(
     ),
 )
 
-internal fun sampleDetailState(movieId: Int = 1) = DetailUiState(
-    movie = SectionState.Content(sampleMovie.copy(id = movieId)),
-    reviews = SectionState.Content(sampleReviews),
-)
+internal fun sampleDetailState(movieId: Int = 1) =
+    _root_ide_package_.app.moviedb.detail.ui.DetailUiState(
+        movie = SectionState.Content(sampleMovie.copy(id = movieId)),
+        reviews = SectionState.Content(sampleReviews),
+    )

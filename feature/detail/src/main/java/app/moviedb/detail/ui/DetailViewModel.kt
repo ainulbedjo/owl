@@ -1,9 +1,7 @@
 package app.moviedb.detail.ui
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.state.SectionState
@@ -11,7 +9,6 @@ import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.core.model.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,25 +17,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-/** One-shot messages for a snackbar. The screen turns each into text, so no strings live here. */
 enum class DetailMessage { FavoriteAdded, FavoriteRemoved }
 
 @HiltViewModel
 class DetailViewModel internal constructor(
     private val movieId: Int,
-    private val repository: MovieRepository,
+    @Inject private val repository: MovieRepository,
 ) : ViewModel() {
-
-    /**
-     * What Hilt calls. The id is read from the route, so it survives process death.
-     * Reading a route needs Android's `Bundle`, so tests use the constructor above instead.
-     */
-    @Inject
-    constructor(
-        savedStateHandle: SavedStateHandle,
-        repository: MovieRepository,
-    ) : this(savedStateHandle.toRoute<DetailRoute>().movieId, repository)
 
     private val _state = MutableStateFlow(DetailUiState())
     val state: StateFlow<DetailUiState> = _state.asStateFlow()

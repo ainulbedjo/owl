@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -28,13 +28,9 @@ import androidx.compose.ui.unit.dp
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
 
-/**
- * The pinned Save and Share buttons. Both are off until the movie has loaded,
- * because the saved snapshot and the share text are built from it.
- */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-internal fun DetailToolbar(
+fun DetailToolbar(
     isFavorite: Boolean,
     enabled: Boolean,
     onFavoriteClick: () -> Unit,

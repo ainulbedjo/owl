@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -32,11 +32,12 @@ import app.moviedb.designsystem.component.RatingChip
 import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
+import app.moviedb.detail.data.sampleMovie
 
 /** Title, tagline, facts, genres, and overview. Missing facts are left out, not shown empty. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun MovieInfo(movie: MovieDetail, modifier: Modifier = Modifier) {
+fun MovieInfo(movie: MovieDetail, modifier: Modifier = Modifier) {
     val date = movie.releaseDate.toCardDate()
 
     Column(modifier = modifier.padding(horizontal = 20.dp)) {

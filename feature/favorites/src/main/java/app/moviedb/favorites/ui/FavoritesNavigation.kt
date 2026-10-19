@@ -10,6 +10,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.favorites.R
+import app.moviedb.favorites.data.sampleFavoritesState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.serialization.Serializable

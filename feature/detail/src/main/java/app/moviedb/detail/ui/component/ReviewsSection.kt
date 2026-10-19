@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -52,12 +52,14 @@ import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.format.toRatingLabel
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
+import app.moviedb.detail.data.sampleReviews
+import app.moviedb.detail.ui.messageRes
 
 private const val COLLAPSED_LINES = 3
 
 /** The "Reviews" heading, a count pill, and the list in whatever state it is in. */
 @Composable
-internal fun ReviewsSection(
+fun ReviewsSection(
     state: SectionState<List<Review>>,
     expandedIds: Set<String>,
     onToggleExpanded: (String) -> Unit,

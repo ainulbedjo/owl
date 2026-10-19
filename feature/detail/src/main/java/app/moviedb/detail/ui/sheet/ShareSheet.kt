@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.sheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,11 +41,10 @@ import app.moviedb.core.common.TmdbImage
 import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
+import app.moviedb.detail.data.sampleMovie
 
-/** What the viewer picked. The screen starts the intent, because it needs a `Context`. */
 internal enum class ShareAction { Messages, CopyLink, Email, More }
 
-/** A modal bottom sheet with a summary of the movie and four ways to send it. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ShareSheet(

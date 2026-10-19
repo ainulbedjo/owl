@@ -1,4 +1,4 @@
-package app.moviedb.favorites.ui
+package app.moviedb.favorites.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +21,8 @@ import app.moviedb.designsystem.component.pulse
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.favorites.R
 
-/** Three rows while the list loads. Room is normally instant, so this should rarely show. */
 @Composable
-internal fun FavoritesSkeleton(modifier: Modifier = Modifier) {
+fun FavoritesSkeleton(modifier: Modifier = Modifier) {
     val description = stringResource(R.string.favorites_loading)
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),

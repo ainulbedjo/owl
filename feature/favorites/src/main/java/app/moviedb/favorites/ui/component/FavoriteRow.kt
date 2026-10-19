@@ -1,4 +1,4 @@
-package app.moviedb.favorites.ui
+package app.moviedb.favorites.ui.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -38,14 +38,10 @@ import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.designsystem.theme.pressedCornerShape
 import app.moviedb.favorites.R
+import app.moviedb.favorites.data.sampleFavorites
 
-/**
- * One saved movie. The row opens Detail. The heart removes it.
- * The poster is 16 dp rounded: the row's 28 dp radius minus its 12 dp padding,
- * so the nested corners look balanced.
- */
 @Composable
-internal fun FavoriteRow(
+fun FavoriteRow(
     movie: Movie,
     onClick: () -> Unit,
     onRemoveClick: () -> Unit,

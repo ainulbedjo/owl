@@ -6,6 +6,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.designsystem.theme.MoviedbTheme
+import app.moviedb.favorites.data.sampleFavorites
+import app.moviedb.favorites.data.sampleFavoritesState
 
 @Composable
 private fun PreviewFavorites(state: FavoritesUiState, dark: Boolean = false) {

@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.sheet
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData

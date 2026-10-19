@@ -43,15 +43,26 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.moviedb.core.common.AppError
+import app.moviedb.core.common.ImageSize
+import app.moviedb.core.common.TmdbImage
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.designsystem.component.ErrorCard
 import app.moviedb.designsystem.component.OfflineSheet
-import app.moviedb.core.common.ImageSize
-import app.moviedb.core.common.TmdbImage
 import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.designsystem.component.pulse
 import app.moviedb.detail.R
+import app.moviedb.detail.ui.component.DetailToolbar
+import app.moviedb.detail.ui.component.MovieInfo
+import app.moviedb.detail.ui.component.MovieNotFound
+import app.moviedb.detail.ui.component.MovieSkeleton
+import app.moviedb.detail.ui.component.ReviewsSection
+import app.moviedb.detail.ui.sheet.ShareAction
+import app.moviedb.detail.ui.sheet.ShareSheet
+import app.moviedb.detail.ui.sheet.copyLink
+import app.moviedb.detail.ui.sheet.shareByEmail
+import app.moviedb.detail.ui.sheet.shareByMessages
+import app.moviedb.detail.ui.sheet.shareWithChooser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
@@ -126,16 +137,16 @@ fun DetailScreen(
             )
         }
 
-        DetailToolbar(
-            isFavorite = state.isFavorite,
-            enabled = movie != null,
-            onFavoriteClick = onFavoriteClick,
-            onShareClick = onShareClick,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .navigationBarsPadding()
-                .padding(bottom = 20.dp),
-        )
+          DetailToolbar(
+              isFavorite = state.isFavorite,
+              enabled = movie != null,
+              onFavoriteClick = onFavoriteClick,
+              onShareClick = onShareClick,
+              modifier = Modifier
+                  .align(Alignment.BottomCenter)
+                  .navigationBarsPadding()
+                  .padding(bottom = 20.dp),
+          )
 
         SnackbarHost(
             hostState = snackbarHostState,
@@ -253,7 +264,9 @@ private fun Backdrop(movie: MovieDetail?) {
             modifier = modifier,
         )
     } else {
-        Box(modifier.pulse().background(MaterialTheme.colorScheme.surfaceContainerHigh))
+        Box(modifier
+            .pulse()
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh))
     }
 }
 

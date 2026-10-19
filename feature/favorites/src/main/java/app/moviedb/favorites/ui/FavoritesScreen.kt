@@ -35,16 +35,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.moviedb.core.common.state.SectionState
-import app.moviedb.core.model.Movie
 import app.moviedb.designsystem.component.ErrorCard
 import app.moviedb.favorites.R
+import app.moviedb.favorites.ui.component.FavoriteRow
+import app.moviedb.favorites.ui.component.FavoritesEmpty
+import app.moviedb.favorites.ui.component.FavoritesSkeleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-/**
- * The Favorites screen. It only draws [state] and reports what the viewer does.
- * [messages] carries one-shot snackbar texts from the ViewModel.
- */
 @Composable
 fun FavoritesScreen(
     state: FavoritesUiState,

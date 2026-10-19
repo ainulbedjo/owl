@@ -1,4 +1,4 @@
-package app.moviedb.favorites.ui
+package app.moviedb.favorites.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,10 +31,9 @@ import androidx.compose.ui.unit.dp
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.favorites.R
 
-/** Nothing saved yet: says what this screen is for and offers a way back to browsing. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-internal fun FavoritesEmpty(
+fun FavoritesEmpty(
     onBrowseClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {

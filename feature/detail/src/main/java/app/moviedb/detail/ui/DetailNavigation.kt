@@ -12,11 +12,9 @@ import app.moviedb.detail.R
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 
-/** Only the id travels. Detail loads everything else itself, so it also works after process death. */
 @Serializable
 data class DetailRoute(val movieId: Int)
 
-/** Registers Detail in the app's `NavHost`. Navigation goes out through the callbacks. */
 fun NavGraphBuilder.detailScreen(
     onBack: () -> Unit,
     onFavoritesClick: () -> Unit,

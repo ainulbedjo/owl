@@ -1,4 +1,4 @@
-package app.moviedb.detail.ui
+package app.moviedb.detail.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -6,6 +6,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.designsystem.theme.MoviedbTheme
+import app.moviedb.detail.ui.DetailScreen
+import app.moviedb.detail.ui.DetailUiState
+import app.moviedb.detail.data.sampleDetailState
 
 @Composable
 private fun PreviewDetail(state: DetailUiState, dark: Boolean = false) {

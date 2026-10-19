@@ -1,11 +1,12 @@
-package app.moviedb.favorites.ui
+package app.moviedb.favorites.data
 
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.Movie
+import app.moviedb.favorites.ui.FavoritesUiState
 import java.time.LocalDate
 
 // Sample data for previews and the UI-only build. Delete when FavoriteRepository exists.
-internal val sampleFavorites = listOf(
+val sampleFavorites = listOf(
     Movie(
         id = 2,
         title = "The Last Lighthouse",
@@ -34,4 +35,6 @@ internal val sampleFavorites = listOf(
     ),
 )
 
-internal val sampleFavoritesState = FavoritesUiState(SectionState.Content(sampleFavorites))
+val sampleFavoritesState = FavoritesUiState(
+    SectionState.Content(sampleFavorites)
+)
