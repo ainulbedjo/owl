@@ -79,6 +79,10 @@ dependencies {
     implementation(Deps.HILT_ANDROID)
     ksp(Deps.HILT_COMPILER)
 
+    // Http & inspector
+    debugImplementation(Deps.CHUCKER)
+    releaseImplementation(Deps.CHUCKER_RELEASE)
+
     // test and development
     testImplementation(Deps.JUNIT)
     androidTestImplementation(Deps.ANDROIDX_JUNIT)
