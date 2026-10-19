@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import app.moviedb.core.data.local.FavoriteDao
 import app.moviedb.core.data.local.MovieDatabase
+import app.moviedb.core.data.local.ThemeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +23,7 @@ object DatabaseModule {
 
     @Provides
     fun provideFavoriteDao(database: MovieDatabase): FavoriteDao = database.favoriteDao()
+
+    @Provides
+    fun provideThemeDao(database: MovieDatabase): ThemeDao = database.themeDao()
 }
