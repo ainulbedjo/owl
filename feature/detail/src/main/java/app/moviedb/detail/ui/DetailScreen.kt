@@ -47,7 +47,9 @@ import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.designsystem.component.ErrorCard
 import app.moviedb.designsystem.component.OfflineSheet
-import app.moviedb.designsystem.component.PosterArt
+import app.moviedb.core.common.ImageSize
+import app.moviedb.core.common.TmdbImage
+import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.designsystem.component.pulse
 import app.moviedb.detail.R
 import kotlinx.coroutines.flow.Flow
@@ -242,8 +244,14 @@ private fun Backdrop(movie: MovieDetail?) {
         .clearAndSetSemantics { }
 
     if (movie != null) {
-        // The w780 backdrop replaces PosterArt once we add Coil.
-        PosterArt(movieId = movie.id, title = movie.title, letterSize = null, modifier = modifier)
+        // The backdrop, or the poster when there is none. With neither, the art shows.
+        PosterImage(
+            url = TmdbImage.url(movie.backdropPath ?: movie.posterPath, ImageSize.W780),
+            movieId = movie.id,
+            title = movie.title,
+            letterSize = null,
+            modifier = modifier,
+        )
     } else {
         Box(modifier.pulse().background(MaterialTheme.colorScheme.surfaceContainerHigh))
     }

@@ -31,6 +31,7 @@ object Deps {
         const val HILT_NAVIGATION_COMPOSE = "1.3.0"
         const val KSP = "2.3.12"
         const val OKHTTP = "5.5.0"
+        const val COIL = "3.3.0"
     }
 
     object Plugins {
@@ -79,6 +80,8 @@ object Deps {
     const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT}"
 
     // LIBRARIES AND TOOLING
+    const val COIL_COMPOSE = "io.coil-kt.coil3:coil-compose:${Versions.COIL}"
+    const val COIL_NETWORK_OKHTTP = "io.coil-kt.coil3:coil-network-okhttp:${Versions.COIL}"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
     const val RETROFIT_SERIALIZATION_CONVERTER =
         "com.squareup.retrofit2:converter-kotlinx-serialization:${Versions.RETROFIT}"

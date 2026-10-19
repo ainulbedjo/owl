@@ -26,7 +26,7 @@ Add to `buildSrc/.../Deps.kt` (check each version is current, and that Hilt and 
 - [x] `Deps.RETROFIT` already exists. Add the Retrofit kotlinx.serialization converter (`com.squareup.retrofit2:converter-kotlinx-serialization`).
 - [x] Hilt (`hilt-android`, compiler through KSP, `hilt-navigation-compose`) and the KSP plugin.
 - [x] `lifecycle-viewmodel-compose` and `lifecycle-runtime-compose` (for `collectAsStateWithLifecycle`).
-- [ ] Coil 3 (`coil-compose`, `coil-network-okhttp`). Needed in step 7.
+- [x] Coil 3 (`coil-compose`, `coil-network-okhttp`). Pinned to 3.3.0: newer Coil releases need Kotlin 2.3 or later, and this project is on 2.2.10.
 - [ ] Test libraries: `kotlinx-coroutines-test`, Turbine, MockK.
 
 Done when: the project syncs and `./gradlew :app:assembleDebug` passes.
@@ -93,9 +93,9 @@ Done when: tapping a Home card shows the real movie and its reviews, and a bad i
 
 `TmdbImage.url(path, size)` already builds the URLs. Sizes: Popular card `W500`, poster cards `W342`, Detail backdrop `W780`, Favorites row `W185`, share thumbnail and review avatar `W154`.
 
-- [ ] Add a `PosterImage` to `:designsystem` that loads a URL with Coil and falls back to `PosterArt` when the path is null or loading fails.
-- [ ] Use it where the code says "once we add Coil": `PopularCard`, `PosterCard`, the Detail backdrop, the share sheet, and the review avatar in `ReviewsSection`.
-- [ ] Keep the Coil dependency in `:designsystem`. The features pass a URL, they do not use Coil.
+- [x] Add a `PosterImage` to `:designsystem` that loads a URL with Coil and falls back to `PosterArt` when the path is null or loading fails.
+- [x] Use it where the code says "once we add Coil": `PopularCard`, `PosterCard`, the Detail backdrop, the share sheet, and the review avatar in `ReviewsSection`.
+- [x] Keep the Coil dependency in `:designsystem`. The features pass a URL, they do not use Coil.
 
 Done when: posters appear, and a movie with no poster still shows the colored placeholder.
 
@@ -108,6 +108,15 @@ Needed by Detail's Save button and Home's badge count. Spec: [architecture.md](.
 - [ ] Wire `isFavorite` in `DetailViewModel` and `favoriteCount` in `HomeViewModel` from these Flows.
 
 Done when: Save on Detail survives an app restart, and Home's badge follows it.
+
+## 8b. Favorites screen
+
+The layout is built on sample data: `FavoritesScreen`, `FavoriteRow`, the empty, loading and error states, previews, and navigation (`FavoritesRoute`, wired in `AppNavHost`). What is left is the data:
+
+- [ ] `FavoritesViewModel` (`@HiltViewModel`): `observeAll()` mapped to `Content` or `Empty`, a `catch` mapped to `Error`, `stateIn(viewModelScope, WhileSubscribed(5_000), Loading)`. Spec: [features/favorites.md](../features/favorites.md#viewmodel).
+- [ ] `onRemoveClick(id)` calls `FavoriteRepository.remove(id)` and sends the "Removed from favorites" message.
+- [ ] In `FavoritesNavigation.kt`, replace the sample state in `FavoritesEntry` with the ViewModel.
+- [ ] Tests for the ViewModel (cases in [favorites.md](../features/favorites.md#tests)).
 
 ## 9. Tests to add
 

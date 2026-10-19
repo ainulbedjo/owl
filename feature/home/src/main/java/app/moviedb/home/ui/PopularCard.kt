@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.format.toRatingLabel
 import app.moviedb.core.model.Movie
-import app.moviedb.designsystem.component.PosterArt
+import app.moviedb.core.common.ImageSize
+import app.moviedb.core.common.TmdbImage
+import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.designsystem.component.RatingChip
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.designsystem.theme.pressedCornerShape
@@ -60,8 +62,8 @@ fun PopularCard(
     ) {
         // The card reads as one element, so its parts must not be announced again.
         Box(Modifier.fillMaxSize().clearAndSetSemantics { }) {
-            // The poster image replaces PosterArt once we add Coil.
-            PosterArt(
+            PosterImage(
+                url = TmdbImage.url(movie.posterPath, ImageSize.W500),
                 movieId = movie.id,
                 title = movie.title,
                 letterSize = null,

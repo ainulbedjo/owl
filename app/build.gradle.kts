@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":designsystem"))
     implementation(project(":feature:home"))
     implementation(project(":feature:detail"))
+    implementation(project(":feature:favorites"))
 
     implementation(Deps.ANDROIDX_CORE_KTX)
     implementation(Deps.ANDROIDX_LIFECYCLE_RUNTIME_KTX)

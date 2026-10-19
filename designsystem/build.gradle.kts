@@ -33,6 +33,10 @@ dependencies {
     implementation(Deps.ANDROIDX_COMPOSE_MATERIAL3)
     implementation(Deps.ANDROIDX_COMPOSE_ICON)
 
+    // Image loading stays in this module: features pass a URL and never touch Coil.
+    implementation(Deps.COIL_COMPOSE)
+    implementation(Deps.COIL_NETWORK_OKHTTP)
+
     // test and development
     testImplementation(Deps.JUNIT)
     @Suppress("AvoidDuplicateDependencies")

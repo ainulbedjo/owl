@@ -1,6 +1,6 @@
 package app.moviedb.core.common
 
-/** Image widths this app requests. Sizes per screen: docs/api/tmdb_overview.md#images. */
+// image widths this app requests. Sizes per screen: docs/api/tmdb_overview.md#images.
 enum class ImageSize(internal val segment: String) {
     W154("w154"),
     W185("w185"),

@@ -6,6 +6,8 @@ import androidx.navigation.compose.rememberNavController
 import app.moviedb.core.model.ThemeSettings
 import app.moviedb.detail.ui.DetailRoute
 import app.moviedb.detail.ui.detailScreen
+import app.moviedb.favorites.ui.FavoritesRoute
+import app.moviedb.favorites.ui.favoritesScreen
 import app.moviedb.home.ui.HomeRoute
 import app.moviedb.home.ui.homeScreen
 
@@ -22,11 +24,17 @@ fun AppNavHost(
             theme = theme,
             onThemeChange = onThemeChange,
             onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
-            onFavoritesClick = { /* TODO: navigate to Favorites when that screen exists. */ },
+            onFavoritesClick = { navController.navigate(FavoritesRoute) },
         )
         detailScreen(
             onBack = { navController.popBackStack() },
-            onFavoritesClick = { /* TODO: navigate to Favorites when that screen exists. */ },
+            onFavoritesClick = { navController.navigate(FavoritesRoute) },
+        )
+        favoritesScreen(
+            onBack = { navController.popBackStack() },
+            onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
+            // Back to Home, whatever screens are above it.
+            onBrowseClick = { navController.popBackStack(HomeRoute, inclusive = false) },
         )
     }
 }

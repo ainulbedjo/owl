@@ -36,7 +36,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.moviedb.core.model.MovieDetail
-import app.moviedb.designsystem.component.PosterArt
+import app.moviedb.core.common.ImageSize
+import app.moviedb.core.common.TmdbImage
+import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
 
@@ -83,8 +85,8 @@ private fun ShareSheetContent(movie: MovieDetail, onAction: (ShareAction) -> Uni
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
                 modifier = Modifier.padding(12.dp),
             ) {
-                // The w154 poster replaces PosterArt once we add Coil.
-                PosterArt(
+                PosterImage(
+                    url = TmdbImage.url(movie.posterPath, ImageSize.W154),
                     movieId = movie.id,
                     title = movie.title,
                     letterSize = null,

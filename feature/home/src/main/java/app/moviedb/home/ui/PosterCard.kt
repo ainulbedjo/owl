@@ -26,7 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.moviedb.designsystem.component.PosterArt
+import app.moviedb.core.common.ImageSize
+import app.moviedb.core.common.TmdbImage
+import app.moviedb.designsystem.component.PosterImage
 import app.moviedb.home.R
 import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.format.toRatingLabel
@@ -71,8 +73,12 @@ fun PosterCard(
                 .indication(interactionSource, ripple())
                 .clearAndSetSemantics { },
         ) {
-            // The poster image replaces PosterArt once we add Coil.
-            PosterArt(movieId = movie.id, title = movie.title, modifier = Modifier.fillMaxSize())
+            PosterImage(
+                url = TmdbImage.url(movie.posterPath, ImageSize.W342),
+                movieId = movie.id,
+                title = movie.title,
+                modifier = Modifier.fillMaxSize(),
+            )
             if (showRating) {
                 RatingBadge(
                     rating = movie.rating,

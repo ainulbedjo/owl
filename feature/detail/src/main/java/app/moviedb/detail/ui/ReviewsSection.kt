@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.Review
 import app.moviedb.designsystem.component.ErrorCard
+import app.moviedb.designsystem.component.RemoteImage
 import app.moviedb.designsystem.format.toCardDate
 import app.moviedb.designsystem.format.toRatingLabel
 import app.moviedb.designsystem.theme.MoviedbTheme
@@ -148,7 +150,6 @@ internal fun ReviewCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.semantics(mergeDescendants = true) {},
             ) {
-                // The author's photo replaces this initial once we add Coil.
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -162,6 +163,7 @@ internal fun ReviewCard(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
+                    RemoteImage(url = review.avatarUrl, modifier = Modifier.fillMaxSize())
                 }
                 Column(Modifier.weight(1f)) {
                     Text(
