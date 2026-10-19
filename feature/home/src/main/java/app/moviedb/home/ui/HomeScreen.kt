@@ -24,6 +24,9 @@ import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.component.OfflineSheet
 import app.moviedb.home.R
 import app.moviedb.home.ui.component.HomeTopBar
+import app.moviedb.home.ui.component.PopularSection
+import app.moviedb.home.ui.component.PosterSection
+import app.moviedb.home.ui.component.WideSection
 import app.moviedb.home.ui.sheet.AppearanceSheet
 
 /**

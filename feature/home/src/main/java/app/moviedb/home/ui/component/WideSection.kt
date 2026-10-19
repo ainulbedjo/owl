@@ -1,49 +1,60 @@
-package app.moviedb.home.ui
+package app.moviedb.home.ui.component
 
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.Movie
-import app.moviedb.home.R
+import app.moviedb.designsystem.theme.MoviedbTheme
+import app.moviedb.home.data.fakeMovies
+import app.moviedb.home.ui.SectionStateContent
+import app.moviedb.home.ui.WideSkeleton
 
-/** The Popular section: wide cards that snap one at a time. */
 @Composable
-fun PopularSection(
+fun WideSection(
+    title: String,
+    subtitle: String,
     state: SectionState<List<Movie>>,
     onMovieClick: (Int) -> Unit,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val name = stringResource(R.string.section_popular)
-
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        SectionHeader(title = name, subtitle = stringResource(R.string.section_popular_subtitle))
+        SectionHeader(title = title, subtitle = subtitle)
         SectionStateContent(
             state = state,
-            sectionName = name,
+            sectionName = title,
             onRetry = onRetry,
-            loading = { PopularSkeleton(sectionName = name) },
+            loading = { WideSkeleton(sectionName = title) },
         ) { movies ->
-            val listState = rememberLazyListState()
             LazyRow(
-                state = listState,
-                flingBehavior = rememberSnapFlingBehavior(lazyListState = listState),
                 contentPadding = PaddingValues(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(items = movies, key = { it.id }) { movie ->
-                    PopularCard(movie = movie, onClick = { onMovieClick(movie.id) })
+                    PosterWideCard(movie = movie, onClick = { onMovieClick(movie.id) })
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun WideSectionPreview() {
+    MoviedbTheme(paletteId = "violet") {
+        WideSection(
+            title = "Now Playing",
+            subtitle = "In theaters right now",
+            state = SectionState.Content(fakeMovies),
+            onMovieClick = {},
+            onRetry = {},
+        )
     }
 }

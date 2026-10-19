@@ -4,7 +4,6 @@ import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.model.Movie
 import app.moviedb.core.model.ThemeSettings
 
-/** The three lists on Home. Each loads, fails and retries on its own. */
 enum class HomeSection { Popular, TopRated, NowPlaying }
 
 data class HomeUiState(

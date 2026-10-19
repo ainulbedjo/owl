@@ -1,4 +1,4 @@
-package app.moviedb.home.ui
+package app.moviedb.home.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

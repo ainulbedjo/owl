@@ -1,4 +1,4 @@
-package app.moviedb.home.ui
+package app.moviedb.home.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -36,8 +36,8 @@ import app.moviedb.designsystem.component.RatingChip
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.designsystem.theme.pressedCornerShape
 import app.moviedb.home.R
+import app.moviedb.home.data.fakeMovies
 
-/** The wide card of the Popular strip. Corners tighten while pressed. */
 @Composable
 fun PopularCard(
     movie: Movie,
@@ -112,6 +112,6 @@ fun PopularCard(
 @Composable
 private fun PopularCardPreview() {
     MoviedbTheme(paletteId = "violet") {
-        PopularCard(movie = _root_ide_package_.app.moviedb.home.data.fakeMovies.first(), onClick = {})
+        PopularCard(movie = fakeMovies.first(), onClick = {})
     }
 }

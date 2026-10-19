@@ -13,7 +13,7 @@ import app.moviedb.home.R
  * so they are passed in; Empty and Error look the same for every Home section.
  */
 @Composable
-internal fun <T> SectionStateContent(
+fun <T> SectionStateContent(
     state: SectionState<T>,
     sectionName: String,
     onRetry: () -> Unit,
