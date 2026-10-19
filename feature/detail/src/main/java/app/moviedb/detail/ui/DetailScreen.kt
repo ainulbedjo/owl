@@ -92,7 +92,6 @@ fun DetailScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    // Which reviews are expanded is purely visual, so it lives here and survives rotation.
     var expandedIds by rememberSaveable { mutableStateOf(emptySet<String>()) }
     val movie = (state.movie as? SectionState.Content)?.data
 

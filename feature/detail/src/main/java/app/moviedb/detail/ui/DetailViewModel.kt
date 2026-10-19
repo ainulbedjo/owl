@@ -1,10 +1,9 @@
 package app.moviedb.detail.ui
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
+import app.moviedb.core.common.OfflineAwareViewModel
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
@@ -29,7 +28,7 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: MovieRepository,
     private val favorites: FavoriteRepository,
-) : ViewModel() {
+) : OfflineAwareViewModel() {
 
     /**
      * Navigation stores each route argument in the [SavedStateHandle] under its property name,
@@ -46,18 +45,16 @@ class DetailViewModel @Inject constructor(
     val messages: Flow<DetailMessage> = messageChannel.receiveAsFlow()
 
     private enum class Part { Movie, Reviews }
-    private val inFlight = mutableSetOf<Part>()
-    private var retryingFromSheet = false
 
     init {
         // The movie and its reviews start together and run in parallel.
-        Part.entries.forEach {
-            load(it)
-        }
+        Part.entries.forEach(::load)
 
+        // The Save button reflects the database, not a local flag. If the movie is removed on
+        // the Favorites screen, this screen is already right when the viewer comes back.
         viewModelScope.launch {
             favorites.observeIsFavorite(movieId)
-                .catch {  }
+                .catch { /* A read failure leaves the heart off; it must not crash the screen. */ }
                 .collect { isFavorite -> _state.update { it.copy(isFavorite = isFavorite) } }
         }
     }
@@ -66,11 +63,14 @@ class DetailViewModel @Inject constructor(
 
     fun onRetryReviews() = load(Part.Reviews)
 
-    fun onTryAgain() {
-        retryingFromSheet = true
+    override fun reloadFailedParts() {
         val failed = _state.value
         if (failed.movie is SectionState.Error) load(Part.Movie)
         if (failed.reviews is SectionState.Error) load(Part.Reviews)
+    }
+
+    override fun setOfflineSheetVisible(visible: Boolean) {
+        _state.update { it.copy(offlineSheetVisible = visible) }
     }
 
     fun onFavoriteClick() {
@@ -78,6 +78,7 @@ class DetailViewModel @Inject constructor(
         val movie = (_state.value.movie as? SectionState.Content)?.data ?: return
 
         viewModelScope.launch {
+            // The check and the write are one transaction, so quick taps cannot double-insert.
             val nowFavorite = favorites.toggle(movie)
             messageChannel.trySend(
                 if (nowFavorite) DetailMessage.FavoriteAdded else DetailMessage.FavoriteRemoved,
@@ -94,27 +95,16 @@ class DetailViewModel @Inject constructor(
         _state.update { it.copy(shareSheetVisible = false) }
     }
 
-    fun onDismissOfflineSheet() {
-        retryingFromSheet = false
-        _state.update { it.copy(offlineSheetVisible = false) }
-    }
-
-    private fun load(part: Part) {
-        // A second tap on Retry while the first request runs does nothing.
-        if (!inFlight.add(part)) return
-
-        _state.update {
-            when (part) {
-                Part.Movie -> it.copy(movie = SectionState.Loading)
-                Part.Reviews -> it.copy(reviews = SectionState.Loading)
+    private fun load(part: Part) = loadOnce(part) {
+        when (part) {
+            Part.Movie -> {
+                _state.update { it.copy(movie = SectionState.Loading) }
+                showMovie(repository.movieDetail(movieId))
             }
-        }
-        viewModelScope.launch {
-            when (part) {
-                Part.Movie -> showMovie(repository.movieDetail(movieId))
-                Part.Reviews -> showReviews(repository.reviews(movieId))
+            Part.Reviews -> {
+                _state.update { it.copy(reviews = SectionState.Loading) }
+                showReviews(repository.reviews(movieId))
             }
-            inFlight.remove(part)
         }
     }
 
@@ -124,7 +114,8 @@ class DetailViewModel @Inject constructor(
             // A 404 stays an Error(NotFound): the screen shows "not available" with no Retry.
             is AppResult.Failure -> SectionState.Error(result.error)
         }
-        commit(result) { it.copy(movie = movie) }
+        _state.update { it.copy(movie = movie) }
+        handleOfflineSheet(result)
     }
 
     private fun showReviews(result: AppResult<List<Review>>) {
@@ -133,25 +124,7 @@ class DetailViewModel @Inject constructor(
                 if (result.data.isEmpty()) SectionState.Empty else SectionState.Content(result.data)
             is AppResult.Failure -> SectionState.Error(result.error)
         }
-        commit(result) { it.copy(reviews = reviews) }
-    }
-
-    /**
-     * Applies [change], then decides about the offline sheet. Only a lost connection opens it,
-     * and one sheet serves both parts, so a second failure while it is open changes nothing.
-     */
-    private fun commit(result: AppResult<*>, change: (DetailUiState) -> DetailUiState) {
-        val opensSheet = result is AppResult.Failure && result.error == AppError.Network
-        val closesSheet = result is AppResult.Success && retryingFromSheet
-        if (closesSheet) retryingFromSheet = false
-
-        _state.update { current ->
-            val updated = change(current)
-            when {
-                opensSheet -> updated.copy(offlineSheetVisible = true)
-                closesSheet -> updated.copy(offlineSheetVisible = false)
-                else -> updated
-            }
-        }
+        _state.update { it.copy(reviews = reviews) }
+        handleOfflineSheet(result)
     }
 }

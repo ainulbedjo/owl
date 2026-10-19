@@ -1,9 +1,8 @@
 package app.moviedb.home.ui
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
+import app.moviedb.core.common.OfflineAwareViewModel
 import app.moviedb.core.common.state.SectionState
 import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
@@ -21,13 +20,10 @@ import kotlinx.coroutines.launch
 class HomeViewModel @Inject constructor(
     private val repository: MovieRepository,
     private val favorites: FavoriteRepository,
-) : ViewModel() {
+) : OfflineAwareViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
-
-    private val inFlight = mutableSetOf<HomeSection>()
-    private var retryingFromSheet = false
 
     init {
         // The three lists start together and run in parallel, each in its own coroutine.
@@ -43,55 +39,34 @@ class HomeViewModel @Inject constructor(
 
     fun onRetry(section: HomeSection) = load(section)
 
-    fun onTryAgain() {
-        retryingFromSheet = true
+    override fun reloadFailedParts() {
         HomeSection.entries
             .filter { _state.value.sectionOf(it) is SectionState.Error }
             .forEach(::load)
     }
 
-    fun onDismissOfflineSheet() {
-        retryingFromSheet = false
-        _state.update { it.copy(offlineSheetVisible = false) }
+    override fun setOfflineSheetVisible(visible: Boolean) {
+        _state.update { it.copy(offlineSheetVisible = visible) }
     }
 
-    private fun load(section: HomeSection) {
-        // A second tap on Retry while the first request runs does nothing.
-        if (!inFlight.add(section)) return
-
+    private fun load(section: HomeSection) = loadOnce(section) {
         _state.update { it.withSection(section, SectionState.Loading) }
-        viewModelScope.launch {
-            val result = fetch(section)
-            inFlight.remove(section)
-            apply(section, result)
+
+        val result = fetch(section)
+
+        val sectionState = when (result) {
+            is AppResult.Success ->
+                if (result.data.isEmpty()) SectionState.Empty else SectionState.Content(result.data)
+            is AppResult.Failure -> SectionState.Error(result.error)
         }
+        _state.update { it.withSection(section, sectionState) }
+        handleOfflineSheet(result)
     }
 
     private suspend fun fetch(section: HomeSection): AppResult<List<Movie>> = when (section) {
         HomeSection.Popular -> repository.popular()
         HomeSection.TopRated -> repository.topRated()
         HomeSection.NowPlaying -> repository.nowPlaying()
-    }
-
-    private fun apply(section: HomeSection, result: AppResult<List<Movie>>) {
-        val sectionState = when (result) {
-            is AppResult.Success ->
-                if (result.data.isEmpty()) SectionState.Empty else SectionState.Content(result.data)
-            is AppResult.Failure -> SectionState.Error(result.error)
-        }
-        // Only a lost connection opens the sheet. Other errors stay in the section's own card.
-        val opensSheet = result is AppResult.Failure && result.error == AppError.Network
-        val closesSheet = result is AppResult.Success && retryingFromSheet
-        if (closesSheet) retryingFromSheet = false
-
-        _state.update { current ->
-            val updated = current.withSection(section, sectionState)
-            when {
-                opensSheet -> updated.copy(offlineSheetVisible = true)
-                closesSheet -> updated.copy(offlineSheetVisible = false)
-                else -> updated
-            }
-        }
     }
 }
 

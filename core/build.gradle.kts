@@ -48,6 +48,9 @@ dependencies {
     implementation(Deps.RETROFIT_SERIALIZATION_CONVERTER)
     implementation(Deps.KOTLINX_SERIALIZATION_JSON)
 
+    // ViewModel is the parent of OfflineAwareViewModel, so features see it through this module.
+    api(Deps.ANDROIDX_LIFECYCLE_VIEWMODEL)
+
     // Local storage
     implementation(Deps.ROOM_RUNTIME)
     ksp(Deps.ROOM_COMPILER)

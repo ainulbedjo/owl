@@ -45,6 +45,8 @@ object Deps {
     }
 
     const val ANDROIDX_CORE_KTX = "androidx.core:core-ktx:${Versions.CORE_KTX}"
+    const val ANDROIDX_LIFECYCLE_VIEWMODEL =
+        "androidx.lifecycle:lifecycle-viewmodel:${Versions.LIFECYCLE_RUNTIME_KTX}"
     const val ANDROIDX_LIFECYCLE_RUNTIME_KTX =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_RUNTIME_KTX}"
     const val COROUTINES_TEST =
