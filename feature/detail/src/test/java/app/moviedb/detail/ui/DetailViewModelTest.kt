@@ -1,15 +1,20 @@
 package app.moviedb.detail.ui
 
+import androidx.lifecycle.SavedStateHandle
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.Movie
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.core.model.Review
 import app.moviedb.detail.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -51,19 +56,48 @@ private class FakeMovieRepository : MovieRepository {
     override suspend fun nowPlaying(): AppResult<List<Movie>> = error("not used by Detail")
 }
 
+
+/** Keeps favorites in memory and tells observers about every change, like the Room version does. */
+private class FakeFavoriteRepository : FavoriteRepository {
+    val saved = MutableStateFlow<List<Movie>>(emptyList())
+
+    override fun observeAll(): Flow<List<Movie>> = saved
+    override fun observeCount(): Flow<Int> = saved.map { it.size }
+    override fun observeIsFavorite(id: Int): Flow<Boolean> = saved.map { list -> list.any { it.id == id } }
+
+    override suspend fun toggle(movie: MovieDetail): Boolean {
+        val exists = saved.value.any { it.id == movie.id }
+        saved.value = if (exists) {
+            saved.value.filterNot { it.id == movie.id }
+        } else {
+            listOf(Movie(movie.id, movie.title, movie.overview, movie.posterPath, movie.releaseDate, movie.rating)) + saved.value
+        }
+        return !exists
+    }
+
+    override suspend fun remove(id: Int) {
+        saved.value = saved.value.filterNot { it.id == id }
+    }
+}
+
 class DetailViewModelTest {
 
     @get:Rule
     val mainDispatcher = MainDispatcherRule()
 
     private val repository = FakeMovieRepository()
+    private val favorites = FakeFavoriteRepository()
 
-    private fun viewModel(movieId: Int = 7) = DetailViewModel(movieId, repository)
+    private fun viewModel(movieId: Int = 7) = DetailViewModel(
+        savedStateHandle = SavedStateHandle(mapOf(DetailRoute::movieId.name to movieId)),
+        repository = repository,
+        favorites = favorites,
+    )
 
     private val offline = AppResult.Failure(AppError.Network)
 
     @Test
-    fun requestsTheMovieWithTheGivenId() {
+    fun readsTheMovieIdFromTheRoute() {
         viewModel(movieId = 42)
 
         assertEquals(listOf(42), repository.requestedIds)
@@ -206,16 +240,62 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun favoriteTogglesAndSendsAMessage() = runTest {
+    fun favoriteSavesTheMovieAndSendsAMessage() = runTest {
+        val vm = viewModel(movieId = 7)
+
+        vm.onFavoriteClick()
+
+        assertEquals(listOf(7), favorites.saved.value.map { it.id })
+        assertTrue(vm.state.value.isFavorite)
+        assertEquals(DetailMessage.FavoriteAdded, vm.messages.first())
+    }
+
+    @Test
+    fun favoriteAgainRemovesItAndSendsAMessage() = runTest {
+        val vm = viewModel(movieId = 7)
+        vm.onFavoriteClick()
+        vm.messages.first()
+
+        vm.onFavoriteClick()
+
+        assertEquals(emptyList<Movie>(), favorites.saved.value)
+        assertFalse(vm.state.value.isFavorite)
+        assertEquals(DetailMessage.FavoriteRemoved, vm.messages.first())
+    }
+
+    @Test
+    fun heartStartsOnWhenTheMovieIsAlreadySaved() {
+        favorites.saved.value = listOf(Movie(7, "Saved", "", null, null, 7.0))
+
+        assertTrue(viewModel(movieId = 7).state.value.isFavorite)
+    }
+
+    @Test
+    fun heartFollowsTheDatabaseWhenRemovedElsewhere() {
+        favorites.saved.value = listOf(Movie(7, "Saved", "", null, null, 7.0))
+        val vm = viewModel(movieId = 7)
+
+        // The viewer removes it on the Favorites screen.
+        favorites.saved.value = emptyList()
+
+        assertFalse(vm.state.value.isFavorite)
+    }
+
+    @Test
+    fun anotherSavedMovieDoesNotTurnTheHeartOn() {
+        favorites.saved.value = listOf(Movie(99, "Other", "", null, null, 7.0))
+
+        assertFalse(viewModel(movieId = 7).state.value.isFavorite)
+    }
+
+    @Test
+    fun savingIsNotOfferedWhenTheMovieFailedToLoad() {
+        repository.movie = { AppResult.Failure(AppError.Server) }
         val vm = viewModel()
 
         vm.onFavoriteClick()
-        assertTrue(vm.state.value.isFavorite)
-        assertEquals(DetailMessage.FavoriteAdded, vm.messages.first())
 
-        vm.onFavoriteClick()
-        assertFalse(vm.state.value.isFavorite)
-        assertEquals(DetailMessage.FavoriteRemoved, vm.messages.first())
+        assertEquals(emptyList<Movie>(), favorites.saved.value)
     }
 
     @Test

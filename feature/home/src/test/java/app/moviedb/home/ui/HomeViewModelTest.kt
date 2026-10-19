@@ -3,12 +3,16 @@ package app.moviedb.home.ui
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.Movie
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.core.model.Review
 import app.moviedb.home.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -47,14 +51,39 @@ private class FakeMovieRepository : MovieRepository {
     override suspend fun reviews(id: Int): AppResult<List<Review>> = error("not used by Home")
 }
 
+
+/** Keeps favorites in memory and tells observers about every change, like the Room version does. */
+private class FakeFavoriteRepository : FavoriteRepository {
+    val saved = MutableStateFlow<List<Movie>>(emptyList())
+
+    override fun observeAll(): Flow<List<Movie>> = saved
+    override fun observeCount(): Flow<Int> = saved.map { it.size }
+    override fun observeIsFavorite(id: Int): Flow<Boolean> = saved.map { list -> list.any { it.id == id } }
+
+    override suspend fun toggle(movie: MovieDetail): Boolean {
+        val exists = saved.value.any { it.id == movie.id }
+        saved.value = if (exists) {
+            saved.value.filterNot { it.id == movie.id }
+        } else {
+            listOf(Movie(movie.id, movie.title, movie.overview, movie.posterPath, movie.releaseDate, movie.rating)) + saved.value
+        }
+        return !exists
+    }
+
+    override suspend fun remove(id: Int) {
+        saved.value = saved.value.filterNot { it.id == id }
+    }
+}
+
 class HomeViewModelTest {
 
     @get:Rule
     val mainDispatcher = MainDispatcherRule()
 
     private val repository = FakeMovieRepository()
+    private val favorites = FakeFavoriteRepository()
 
-    private fun viewModel() = HomeViewModel(repository)
+    private fun viewModel() = HomeViewModel(repository, favorites)
 
     private val offline = AppResult.Failure(AppError.Network)
 
@@ -177,5 +206,21 @@ class HomeViewModelTest {
         vm.onTryAgain()
 
         assertTrue(vm.state.value.offlineSheetVisible)
+    }
+
+    @Test
+    fun badgeIsHiddenWhenNothingIsSaved() {
+        assertEquals(0, viewModel().state.value.favoriteCount)
+    }
+
+    @Test
+    fun badgeFollowsTheNumberOfFavorites() {
+        val vm = viewModel()
+
+        favorites.saved.value = listOf(movie(1), movie(2), movie(3))
+        assertEquals(3, vm.state.value.favoriteCount)
+
+        favorites.saved.value = listOf(movie(1))
+        assertEquals(1, vm.state.value.favoriteCount)
     }
 }

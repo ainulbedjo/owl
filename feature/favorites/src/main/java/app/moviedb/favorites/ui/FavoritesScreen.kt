@@ -39,7 +39,7 @@ import app.moviedb.designsystem.component.ErrorCard
 import app.moviedb.favorites.R
 import app.moviedb.favorites.ui.component.FavoriteRow
 import app.moviedb.favorites.ui.component.FavoritesEmpty
-import app.moviedb.favorites.ui.component.FavoritesSkeleton
+import app.moviedb.favorites.ui.component.DelayedFavoritesSkeleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -53,6 +53,7 @@ fun FavoritesScreen(
     onBrowseClick: () -> Unit,
     modifier: Modifier = Modifier,
     messages: Flow<String> = emptyFlow(),
+    skeletonDelayMillis: Long = 150,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     LaunchedEffect(messages) {
@@ -81,7 +82,9 @@ fun FavoritesScreen(
                     )
                 }
                 when (favorites) {
-                    SectionState.Loading -> item(key = "loading") { FavoritesSkeleton() }
+                    SectionState.Loading -> item(key = "loading") {
+                        DelayedFavoritesSkeleton(delayMillis = skeletonDelayMillis)
+                    }
                     SectionState.Empty -> item(key = "empty") {
                         FavoritesEmpty(
                             onBrowseClick = onBrowseClick,

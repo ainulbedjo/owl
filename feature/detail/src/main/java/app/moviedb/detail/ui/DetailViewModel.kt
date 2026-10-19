@@ -1,10 +1,12 @@
 package app.moviedb.detail.ui
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.moviedb.core.common.AppError
 import app.moviedb.core.common.AppResult
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.core.data.repository.FavoriteRepository
 import app.moviedb.core.data.repository.MovieRepository
 import app.moviedb.core.model.MovieDetail
 import app.moviedb.core.model.Review
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,10 +25,19 @@ import javax.inject.Inject
 enum class DetailMessage { FavoriteAdded, FavoriteRemoved }
 
 @HiltViewModel
-class DetailViewModel internal constructor(
-    private val movieId: Int,
-    @Inject private val repository: MovieRepository,
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val repository: MovieRepository,
+    private val favorites: FavoriteRepository,
 ) : ViewModel() {
+
+    /**
+     * Navigation stores each route argument in the [SavedStateHandle] under its property name,
+     * so the id is there when the screen opens, and again after the process is recreated.
+     */
+    private val movieId: Int = checkNotNull(savedStateHandle[DetailRoute::movieId.name]) {
+        "DetailViewModel needs a movieId in its route"
+    }
 
     private val _state = MutableStateFlow(DetailUiState())
     val state: StateFlow<DetailUiState> = _state.asStateFlow()
@@ -34,16 +46,20 @@ class DetailViewModel internal constructor(
     val messages: Flow<DetailMessage> = messageChannel.receiveAsFlow()
 
     private enum class Part { Movie, Reviews }
-
-    /** Parts with a request in flight. A part is never loaded twice at once. */
     private val inFlight = mutableSetOf<Part>()
-
-    /** True after "Try again" on the offline sheet, so the first success can close it. */
     private var retryingFromSheet = false
 
     init {
         // The movie and its reviews start together and run in parallel.
-        Part.entries.forEach(::load)
+        Part.entries.forEach {
+            load(it)
+        }
+
+        viewModelScope.launch {
+            favorites.observeIsFavorite(movieId)
+                .catch {  }
+                .collect { isFavorite -> _state.update { it.copy(isFavorite = isFavorite) } }
+        }
     }
 
     fun onRetryMovie() = load(Part.Movie)
@@ -59,13 +75,14 @@ class DetailViewModel internal constructor(
 
     fun onFavoriteClick() {
         // The saved snapshot is built from the loaded movie, so there is nothing to toggle before that.
-        if (_state.value.movie !is SectionState.Content) return
+        val movie = (_state.value.movie as? SectionState.Content)?.data ?: return
 
-        // TODO(data): replace this in-memory flag with FavoriteRepository.toggle(movie)
-        // and collect observeIsFavorite(id) into the state (see docs/todo/data-fetch.md).
-        val nowFavorite = !_state.value.isFavorite
-        _state.update { it.copy(isFavorite = nowFavorite) }
-        messageChannel.trySend(if (nowFavorite) DetailMessage.FavoriteAdded else DetailMessage.FavoriteRemoved)
+        viewModelScope.launch {
+            val nowFavorite = favorites.toggle(movie)
+            messageChannel.trySend(
+                if (nowFavorite) DetailMessage.FavoriteAdded else DetailMessage.FavoriteRemoved,
+            )
+        }
     }
 
     fun onShareClick() {
