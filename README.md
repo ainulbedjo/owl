@@ -3,24 +3,24 @@
 <table>
 <tr>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/home.webp" alt="Home screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/home.png" alt="Home screenshot" width="100%" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/detail.webp" alt="Detail screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/detail.png" alt="Detail screenshot" width="100%" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/favorites.webp" alt="Favorites screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/favorites.png" alt="Favorites screenshot" width="100%" />
 </td>
 </tr>
 <tr>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/theme.webp" alt="Theme screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/theme.png" alt="Theme screenshot" width="100%" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/offline.webp" alt="Offline screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/offline.png" alt="Offline screenshot" width="100%" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/chucker.webp" alt="Chucker screenshot" width="100%" />
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/chucker.png" alt="Chucker screenshot" width="100%" />
 </td>
 </tr>
 </table>
