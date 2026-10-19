@@ -2,26 +2,24 @@
 
 <table>
 <tr>
-<td width="50%">
+<td>
 <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/home.webp" alt="Home screenshot" width="100%" />
 </td>
-<td width="50%">
+<td>
 <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/detail.webp" alt="Detail screenshot" width="100%" />
 </td>
-</tr>
-<tr>
-<td width="50%">
+<td>
 <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/favorites.webp" alt="Favorites screenshot" width="100%" />
 </td>
-<td width="50%">
-<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/theme.webp" alt="Theme screenshot" width="100%" />
-</td>
 </tr>
 <tr>
-<td width="50%">
+<td>
+<img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/theme.webp" alt="Theme screenshot" width="100%" />
+</td>
+<td>
 <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/offline.webp" alt="Offline screenshot" width="100%" />
 </td>
-<td width="50%">
+<td>
 <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/screenshot/chucker.webp" alt="Chucker screenshot" width="100%" />
 </td>
 </tr>
@@ -29,16 +27,11 @@
 
 An Android app for browsing movies from [TMDB](https://www.themoviedb.org/), built with Jetpack Compose and Material 3 Expressive. Your favorites are saved on the device, so they work offline.
 
-- **
-  Home**: Popular, Top Rated, and Now Playing. Each list loads, fails, and retries on its own.
-- **
-  Detail**: backdrop, facts, overview, and reviews. Save the movie to favorites or share it from a bottom sheet.
-- **
-  Favorites**: your saved movies, newest first. Open or remove one, and every screen updates live.
-- **
-  Appearance**: light, dark, or system mode and a choice of color palettes, saved between launches.
-- **
-  Offline**: only a lost connection opens a "No connection" sheet. Other errors stay in the section that failed.
+- **Home**: Popular, Top Rated, and Now Playing. Each list loads, fails, and retries on its own.
+- **Detail**: backdrop, facts, overview, and reviews. Save the movie to favorites or share it from a bottom sheet.
+- **Favorites**: your saved movies, newest first. Open or remove one, and every screen updates live.
+- **Appearance**: light, dark, or system mode and a choice of color palettes, saved between launches.
+- **Offline**: only a lost connection opens a "No connection" sheet. Other errors stay in the section that failed.
 
 ## Libraries
 
