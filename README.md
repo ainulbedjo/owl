@@ -3,6 +3,7 @@
     <img src="https://raw.githubusercontent.com/ainulbedjo/owl/refs/heads/master/app/src/main/res/drawable/play_store_512.png" width="100" height="100">
   </a>
   <h1>MovieDB</h1>
+  <p>An Android app for browsing movies from TMDB, built with Jetpack Compose and Material 3 Expressive.</p>
 </div>
 
 <table>
@@ -30,8 +31,7 @@
 </tr>
 </table>
 
-An Android app for browsing movies from [TMDB](https://www.themoviedb.org/), built with Jetpack Compose and Material 3 Expressive. Your favorites are saved on the device, so they work offline.
-
+### Features:
 - **Home**: Popular, Top Rated, and Now Playing. Each list loads, fails, and retries on its own.
 - **Detail**: backdrop, facts, overview, and reviews. Save the movie to favorites or share it from a bottom sheet.
 - **Favorites**: your saved movies, newest first. Open or remove one, and every screen updates live.
