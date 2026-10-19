@@ -23,10 +23,7 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeUiState())
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
-    /** Sections with a request in flight. A section is never loaded twice at once. */
     private val inFlight = mutableSetOf<HomeSection>()
-
-    /** True after "Try again" on the offline sheet, so the first success can close it. */
     private var retryingFromSheet = false
 
     init {

@@ -88,6 +88,27 @@ internal fun PosterSkeleton(sectionName: String, modifier: Modifier = Modifier) 
     }
 }
 
+@Composable
+internal fun WideSkeleton(sectionName: String, modifier: Modifier = Modifier) {
+    val loadingDescription = stringResource(R.string.section_loading, sectionName)
+    LazyRow(
+        userScrollEnabled = false,
+        contentPadding = PaddingValues(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier.semantics { contentDescription = loadingDescription },
+    ) {
+        items(count = 2) {
+            Box(
+                Modifier
+                    .size(width = 252.dp, height = 142.dp)
+                    .pulse()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun SkeletonPreview() {
@@ -95,6 +116,7 @@ private fun SkeletonPreview() {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             PopularSkeleton(sectionName = "Popular")
             PosterSkeleton(sectionName = "Top Rated")
+            WideSkeleton(sectionName = "Now Playing")
         }
     }
 }

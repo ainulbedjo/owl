@@ -61,7 +61,7 @@ The reference lists these fields for each item in `results`:
 | `original_language` | string | `String` | Not used. |
 | `overview` | string | `String?` | Can be empty. |
 | `poster_path` | string | `String?` | Can be `null`. See [tmdb_overview.md](tmdb_overview.md#nullability-and-defensive-parsing). |
-| `backdrop_path` | string | `String?` | Can be `null`. Not used on Home. |
+| `backdrop_path` | string | `String?` | Can be `null`. Used by the wide Now Playing card (`w780`); falls back to the poster. |
 | `release_date` | string | `String?` | Format `yyyy-MM-dd`. Can be empty. |
 | `vote_average` | number | `Double` | Example `8.7`. |
 | `vote_count` | integer | `Int` | Not used. |
@@ -94,6 +94,7 @@ The list DTO maps to one shared `Movie` model (proposed here, final in `architec
 | `title` | `String` | `title` | Copy. |
 | `overview` | `String` | `overview` | `null` becomes `""`. |
 | `posterPath` | `String?` | `poster_path` | Copy, `null` stays `null`. The UI builds the full URL with `TmdbImage.url(path, size)` for the size it needs. |
+| `backdropPath` | `String?` | `backdrop_path` | Copy, `null` stays `null`. The wide Now Playing card uses it at `w780`, and falls back to `posterPath`. |
 | `releaseDate` | `LocalDate?` | `release_date` | Parse `yyyy-MM-dd`. Empty or invalid becomes `null`. |
 | `rating` | `Double` | `vote_average` | Copy. Display with one decimal. A value of `0.0` means "not rated", and the UI hides the rating chip or badge. |
 
@@ -107,7 +108,7 @@ The mapper is a pure function. It gets unit tests for: normal item, `null` poste
 |---|---|---|
 | Popular | Wide card with poster art, title, date, and a rating chip | `posterPath` (`w500`), `title`, `releaseDate`, `rating` |
 | Top Rated | Poster with a rating badge, title below, and date | `posterPath` (`w342`), `title`, `releaseDate`, `rating` |
-| Now Playing | Poster with title and date | `posterPath` (`w342`), `title`, `releaseDate` |
+| Now Playing | Wide card: backdrop with the date on it, title and rating below | `backdropPath` (`w780`, else `posterPath`), `title`, `releaseDate`, `rating` |
 
 ## Sample response
 

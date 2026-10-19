@@ -13,6 +13,7 @@ fun MovieDto.toMovie(): Movie = Movie(
     posterPath = posterPath,
     releaseDate = releaseDate.toLocalDateOrNull(),
     rating = voteAverage,
+    backdropPath = backdropPath,
 )
 
 fun MovieDetailDto.toMovieDetail(): MovieDetail = MovieDetail(

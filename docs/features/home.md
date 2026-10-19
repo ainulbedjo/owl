@@ -30,7 +30,7 @@ Reference: the "Home" boards in the UI prototype canvas. The styling follows Mat
 | App bar | Title "MovieDB", subtitle "What is on tonight". Two round icon buttons: theme picker and favorites. The favorites button shows a count badge. |
 | Popular | Section title and subtitle. A horizontal strip of wide cards, snapping one card at a time. |
 | Top Rated | Section title and subtitle. A horizontal strip of posters, each with a rating badge, then title and release date below. |
-| Now Playing | Section title and subtitle. A horizontal strip of posters, each with title and release date below. |
+| Now Playing | Section title and subtitle. A horizontal strip of wide cards: a 16:9 backdrop with the release date on it, then the title and rating below. |
 
 The whole screen scrolls vertically. Each strip scrolls horizontally.
 
@@ -39,7 +39,8 @@ The whole screen scrolls vertically. Each strip scrolls horizontally.
 | Card | Size | Shows |
 |---|---|---|
 | Popular card | About 296 x 340 dp, corner radius 28 dp | Poster (`w500`), a rating chip (star and value), title, release date. Title sits on a dark gradient for contrast. |
-| Poster card | 132 x 198 dp, corner radius 20 dp | Poster (`w342`). Top Rated also shows a rating badge. Title (one line, ellipsis) and release date below the image. |
+| Poster card | 132 x 198 dp, corner radius 20 dp | Poster (`w342`) and a rating badge. Used by Top Rated. Title (one line, ellipsis) and release date below the image. |
+| Wide card | 252 dp wide, 16:9 image, corner radius 16 dp | Backdrop (`w780`, or the poster when there is no backdrop) with the release date in a dark pill at the bottom left. Title (one line, ellipsis) and the rating (star and value) below. Used by Now Playing. |
 
 Image sizes come from [api/tmdb_overview.md](../api/tmdb_overview.md#images). Cards are single tap targets that open Detail. Pressing a card morphs its corners (Expressive shape feedback).
 

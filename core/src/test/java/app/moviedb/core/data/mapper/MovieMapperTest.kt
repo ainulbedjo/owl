@@ -10,6 +10,15 @@ import org.junit.Test
 
 class MovieMapperTest {
     @Test
+    fun keepsTheBackdropPathOfAListItem() {
+        val withBackdrop = MovieDto(id = 1, title = "T", backdropPath = "/b.jpg").toMovie()
+        val without = MovieDto(id = 2, title = "T").toMovie()
+
+        assertEquals("/b.jpg", withBackdrop.backdropPath)
+        assertNull(without.backdropPath)
+    }
+
+    @Test
     fun mapsNormalListItem() {
         val movie = MovieDto(
             id = 1, title = "Midnight Orchard", overview = "Story", posterPath = "/p.jpg",

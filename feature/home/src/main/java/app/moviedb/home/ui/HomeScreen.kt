@@ -87,7 +87,7 @@ fun HomeScreen(
                 )
             }
             item {
-                PosterSection(
+                WideSection(
                     title = stringResource(R.string.section_now_playing),
                     subtitle = stringResource(R.string.section_now_playing_subtitle),
                     state = state.nowPlaying,
