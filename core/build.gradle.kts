@@ -27,7 +27,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "ACCESS_TOKEN", "\"${localProperties.getProperty("access_token", "")}\"")
         buildConfigField("String", "API_KEY", "\"${localProperties.getProperty("api_key", "")}\"")
-        buildConfigField("String", "BASE_URL", "\"${localProperties.getProperty("base_url", "")}\"")
     }
     buildFeatures {
         buildConfig = true
@@ -39,11 +38,19 @@ android {
 
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 // No Compose here: this module is data and logic only. UI lives in :designsystem and the features.
 dependencies {
     implementation(Deps.RETROFIT)
     implementation(Deps.RETROFIT_SERIALIZATION_CONVERTER)
     implementation(Deps.KOTLINX_SERIALIZATION_JSON)
+
+    // Local storage
+    implementation(Deps.ROOM_RUNTIME)
+    ksp(Deps.ROOM_COMPILER)
 
     // DI
     implementation(Deps.HILT_ANDROID)
@@ -56,7 +63,10 @@ dependencies {
 
     // test and development
     testImplementation(Deps.JUNIT)
+    @Suppress("AvoidDuplicateDependencies")
     testImplementation(Deps.COROUTINES_TEST)
     androidTestImplementation(Deps.ANDROIDX_JUNIT)
+    @Suppress("AvoidDuplicateDependencies")
+    androidTestImplementation(Deps.COROUTINES_TEST)
     androidTestImplementation(Deps.ANDROIDX_ESPRESSO_CORE)
 }

@@ -31,6 +31,7 @@ object Deps {
         const val HILT_NAVIGATION_COMPOSE = "1.3.0"
         const val KSP = "2.3.12"
         const val OKHTTP = "5.5.0"
+        const val ROOM = "2.8.4"
         const val COIL = "3.3.0"
     }
 
@@ -80,6 +81,8 @@ object Deps {
     const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT}"
 
     // LIBRARIES AND TOOLING
+    const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
+    const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
     const val COIL_COMPOSE = "io.coil-kt.coil3:coil-compose:${Versions.COIL}"
     const val COIL_NETWORK_OKHTTP = "io.coil-kt.coil3:coil-network-okhttp:${Versions.COIL}"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
