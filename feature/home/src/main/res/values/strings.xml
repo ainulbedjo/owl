@@ -1,5 +1,5 @@
 <resources>
-    <string name="home_title">MovieDB</string>
+    <string name="home_title">Owl</string>
     <string name="home_subtitle">What is on tonight</string>
     <string name="home_change_theme">Change theme</string>
     <string name="home_favorites_saved">Favorites, %1$d saved</string>

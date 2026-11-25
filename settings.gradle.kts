@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "moviedb"
+rootProject.name = "Owl"
 include(":app")
 include(":core")
 include(":designsystem")

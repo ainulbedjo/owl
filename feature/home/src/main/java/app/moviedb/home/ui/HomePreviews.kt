@@ -24,6 +24,7 @@ private fun PreviewHome(state: HomeUiState) {
             onTryAgain = {},
             onDismissOfflineSheet = {},
             onThemeChange = {},
+            onGenreClick = {},
         )
     }
 }

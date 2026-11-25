@@ -44,6 +44,7 @@ fun HomeScreen(
     onTryAgain: () -> Unit,
     onDismissOfflineSheet: () -> Unit,
     onThemeChange: (ThemeSettings) -> Unit,
+    onGenreClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -100,7 +101,9 @@ fun HomeScreen(
                 )
             }
             item {
-                GenreSection()
+                GenreSection(
+                    onGenreClick = onGenreClick
+                )
             }
         }
     }

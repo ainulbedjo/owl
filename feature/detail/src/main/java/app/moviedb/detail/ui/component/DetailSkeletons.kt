@@ -25,7 +25,7 @@ import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.R
 
 @Composable
-private fun SkeletonBar(width: Dp?, height: Dp, modifier: Modifier = Modifier) {
+fun SkeletonBar(width: Dp?, height: Dp, modifier: Modifier = Modifier) {
     Box(
         modifier
             .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())

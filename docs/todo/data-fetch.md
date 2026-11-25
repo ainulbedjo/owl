@@ -85,7 +85,7 @@ Spec: [features/detail.md](../features/detail.md#viewmodel).
 - [x] A `NotFound` on the movie stays `Error(AppError.NotFound)` (the screen already shows the "not available" state). A 404 on reviews is `Empty`.
 - [x] Share sheet visibility, the offline sheet rule (one sheet when both calls fail), `onRetryMovie`, `onRetryReviews`, `onTryAgain`.
 - [x] A `Channel` of message kinds (`DetailMessage`) exposed as a `Flow`. The screen turns each into text and passes it to `DetailScreen(messages = ...)`.
-- [x] In `DetailNavigation.kt`, replace `DetailEntry`'s sample state with the ViewModel.
+- [x] In `GenreNavigation.kt`, replace `DetailEntry`'s sample state with the ViewModel.
 
 Done when: tapping a Home card shows the real movie and its reviews, and a bad id shows the not-found state.
 

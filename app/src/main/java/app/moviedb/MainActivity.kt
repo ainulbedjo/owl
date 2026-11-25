@@ -15,10 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import app.moviedb.core.BuildConfig
 import app.moviedb.core.model.ThemeMode
 import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.theme.MoviedbTheme
+import app.moviedb.detail.ui.DetailRoute
+import app.moviedb.detail.ui.detailScreen
+import app.moviedb.favorites.ui.FavoritesRoute
+import app.moviedb.favorites.ui.favoritesScreen
+import app.moviedb.genre.ui.GenreRoute
+import app.moviedb.genre.ui.genreScreen
+import app.moviedb.home.ui.HomeRoute
+import app.moviedb.home.ui.homeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,6 +69,35 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AppNavHost(
+    theme: ThemeSettings,
+    onThemeChange: (ThemeSettings) -> Unit,
+) {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = HomeRoute) {
+        homeScreen(
+            theme = theme,
+            onThemeChange = onThemeChange,
+            onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
+            onFavoritesClick = { navController.navigate(FavoritesRoute) },
+            onGenreClick = { navController.navigate(GenreRoute) }
+        )
+        detailScreen(
+            onBack = { navController.popBackStack() },
+            onFavoritesClick = { navController.navigate(FavoritesRoute) },
+        )
+        favoritesScreen(
+            onBack = { navController.popBackStack() },
+            onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
+            // Back to Home, whatever screens are above it.
+            onBrowseClick = { navController.popBackStack(HomeRoute, inclusive = false) },
+        )
+        genreScreen { navController.popBackStack() }
     }
 }
 

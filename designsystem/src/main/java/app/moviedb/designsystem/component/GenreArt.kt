@@ -65,7 +65,7 @@ fun GenreArt(
             Modifier
                 .align(Alignment.BottomStart)
                 .offset(x = (-16).dp, y = 22.dp)
-                .requiredSize(56.dp)
+                .requiredSize(80.dp)
                 .clip(shapeB)
                 .background(Color.Black.copy(alpha = 0.3f)),
         )
