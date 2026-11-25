@@ -38,7 +38,8 @@ import app.moviedb.designsystem.theme.MoviedbTheme
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun GenreSection(
-    onGenreClick: () -> Unit
+    onGenreClick: () -> Unit,
+    onExploreClick: () -> Unit,
 ) {
     val colors = MaterialTheme.colorScheme
 
@@ -88,7 +89,7 @@ fun GenreSection(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Button(
-                    onClick = {},
+                    onClick = onExploreClick,
                     shapes = ButtonDefaults.shapes(), // Expressive: corners morph when pressed
                     modifier = Modifier.height(ButtonDefaults.MediumContainerHeight),
                     contentPadding = ButtonDefaults.contentPaddingFor(ButtonDefaults.MediumContainerHeight),
@@ -138,6 +139,6 @@ private fun CookieDecoration(
 @Composable
 fun GenreSectionPreview() {
     MoviedbTheme(paletteId = "violet") {
-        GenreSection(onGenreClick = {})
+        GenreSection(onGenreClick = {}, onExploreClick = {})
     }
 }

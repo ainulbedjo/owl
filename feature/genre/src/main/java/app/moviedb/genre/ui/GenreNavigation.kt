@@ -13,21 +13,24 @@ object GenreRoute
 
 fun NavGraphBuilder.genreScreen(
     onBack: () -> Unit,
+    onGenreClick: (genreId: Int, genreName: String) -> Unit,
 ) {
     composable<GenreRoute> {
-        GenreEntry(onBack = onBack)
+        GenreEntry(onBack = onBack, onGenreClick = onGenreClick)
     }
 }
 
 @Composable
 fun GenreEntry(
     onBack: () -> Unit,
+    onGenreClick: (genreId: Int, genreName: String) -> Unit,
 ) {
     val viewModel: GenreViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     GenreScreen(
         onBack = onBack,
+        onGenreClick = onGenreClick,
         state = state
     )
 }

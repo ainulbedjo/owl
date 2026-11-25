@@ -23,6 +23,7 @@ fun NavGraphBuilder.homeScreen(
     onMovieClick: (movieId: Int) -> Unit,
     onFavoritesClick: () -> Unit,
     onGenreClick: () -> Unit,
+    onExploreClick: () -> Unit,
 ) {
     composable<HomeRoute> {
         HomeEntry(
@@ -31,6 +32,7 @@ fun NavGraphBuilder.homeScreen(
             onMovieClick = onMovieClick,
             onFavoritesClick = onFavoritesClick,
             onGenreClick = onGenreClick,
+            onExploreClick = onExploreClick,
         )
     }
 }
@@ -42,6 +44,7 @@ private fun HomeEntry(
     onMovieClick: (movieId: Int) -> Unit,
     onFavoritesClick: () -> Unit,
     onGenreClick: () -> Unit,
+    onExploreClick: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -56,5 +59,6 @@ private fun HomeEntry(
         onDismissOfflineSheet = viewModel::onDismissOfflineSheet,
         onThemeChange = onThemeChange,
         onGenreClick = onGenreClick,
+        onExploreClick = onExploreClick,
     )
 }

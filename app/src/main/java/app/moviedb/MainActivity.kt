@@ -23,6 +23,8 @@ import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.detail.ui.DetailRoute
 import app.moviedb.detail.ui.detailScreen
+import app.moviedb.explore.ui.ExploreRoute
+import app.moviedb.explore.ui.exploreScreen
 import app.moviedb.favorites.ui.FavoritesRoute
 import app.moviedb.favorites.ui.favoritesScreen
 import app.moviedb.genre.ui.GenreRoute
@@ -85,7 +87,8 @@ fun AppNavHost(
             onThemeChange = onThemeChange,
             onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
             onFavoritesClick = { navController.navigate(FavoritesRoute) },
-            onGenreClick = { navController.navigate(GenreRoute) }
+            onGenreClick = { navController.navigate(GenreRoute) },
+            onExploreClick = { navController.navigate(ExploreRoute()) },
         )
         detailScreen(
             onBack = { navController.popBackStack() },
@@ -97,7 +100,15 @@ fun AppNavHost(
             // Back to Home, whatever screens are above it.
             onBrowseClick = { navController.popBackStack(HomeRoute, inclusive = false) },
         )
-        genreScreen { navController.popBackStack() }
+        genreScreen(
+            onBack = { navController.popBackStack() },
+            onGenreClick = { id, name -> navController.navigate(ExploreRoute(id, name)) },
+        )
+        exploreScreen(
+            onBack = { navController.popBackStack() },
+            onMovieClick = { movieId -> navController.navigate(DetailRoute(movieId)) },
+            onFavoritesClick = { navController.navigate(FavoritesRoute) },
+        )
     }
 }
 

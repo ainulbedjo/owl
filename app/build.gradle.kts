@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":feature:detail"))
     implementation(project(":feature:favorites"))
     implementation(project(":feature:genre"))
+    implementation(project(":feature:explore"))
 
     implementation(Deps.ANDROIDX_CORE_KTX)
     implementation(Deps.ANDROIDX_LIFECYCLE_RUNTIME_KTX)

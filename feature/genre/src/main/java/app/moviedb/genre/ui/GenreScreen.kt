@@ -1,6 +1,6 @@
 package app.moviedb.genre.ui
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,14 +34,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.moviedb.core.common.state.SectionState
+import app.moviedb.designsystem.component.BackHeader
 import app.moviedb.designsystem.component.GenreArt
+import app.moviedb.designsystem.component.LoadingBadge
 import app.moviedb.designsystem.theme.MoviedbTheme
 import app.moviedb.genre.model.Genre
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun GenreScreen(
     onBack: () -> Unit,
+    onGenreClick: (genreId: Int, genreName: String) -> Unit,
     state: GenreUiState,
 ) {
     val genres = (state.genres as? SectionState.Content)?.data.orEmpty()
@@ -52,26 +54,13 @@ fun GenreScreen(
         contentColor = MaterialTheme.colorScheme.onSurface,
     ) {
         Column(Modifier.padding(horizontal = 20.dp)) {
-            Header(onBack = onBack)
+            BackHeader(
+                title = "Genres",
+                subtitle = "Pick a mood to start browsing",
+                onBack = onBack,
+            )
 
-            if (state.genres is SectionState.Loading) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 24.dp),
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .size(64.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primaryContainer),
-                    ) {
-                        LoadingIndicator(color = MaterialTheme.colorScheme.primary)
-                    }
-                }
-            }
+            if (state.genres is SectionState.Loading) LoadingBadge()
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -85,49 +74,11 @@ fun GenreScreen(
                         name = genre.name,
                         modifier = Modifier
                             .padding(5.dp)
-                            .clip(RoundedCornerShape(12.dp)),
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { onGenreClick(genre.id, genre.name) },
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun Header(
-    onBack: () -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
-            .statusBarsPadding()
-            .padding(top = 8.dp, bottom = 12.dp),
-    ) {
-        FilledIconButton(
-            onClick = onBack,
-            colors = IconButtonDefaults.filledIconButtonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurface,
-            ),
-            modifier = Modifier.size(48.dp),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null,
-            )
-        }
-        Column {
-            Text(
-                text = "Genres",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                text = "Pick a mood to start browsing",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
     }
 }
@@ -143,6 +94,7 @@ fun GenreScreenPreview() {
     MoviedbTheme(paletteId = "violet") {
         GenreScreen(
             onBack = {},
+            onGenreClick = { _, _ -> },
             state = GenreUiState(genres = SectionState.Content(sampleGenres)),
         )
     }
@@ -152,6 +104,6 @@ fun GenreScreenPreview() {
 @Composable
 fun GenreScreenLoadingPreview() {
     MoviedbTheme(paletteId = "violet") {
-        GenreScreen(onBack = {}, state = GenreUiState())
+        GenreScreen(onBack = {}, onGenreClick = { _, _ -> }, state = GenreUiState())
     }
 }
