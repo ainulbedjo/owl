@@ -14,8 +14,8 @@ android {
         applicationId = Deps.NAMESPACE
         minSdk = Deps.MIN_SDK
         targetSdk = Deps.TARGET_SDK // minimum sdk version for compose android
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
