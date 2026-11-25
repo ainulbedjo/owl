@@ -7,6 +7,7 @@ import java.time.LocalDate
  *
  * [tagline] is `null` when blank. [runtimeMinutes] is `null` when TMDB reports `0` or nothing.
  * [backdropPath] falls back to [posterPath] in the UI, then to a color placeholder.
+ * [trailerKey] is the YouTube video key of the trailer, or `null` when there is none.
  */
 data class MovieDetail(
     val id: Int,
@@ -19,4 +20,5 @@ data class MovieDetail(
     val runtimeMinutes: Int?,
     val genres: List<String>,
     val rating: Double,
+    val trailerKey: String? = null,
 )

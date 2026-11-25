@@ -19,7 +19,10 @@ interface ApiService {
     suspend fun getNowPlayingMovies(@Query("page") page: Int = 1): MovieListDto
 
     @GET("movie/{id}")
-    suspend fun getMovieDetail(@Path("id") id: Int): MovieDetailDto
+    suspend fun getMovieDetail(
+        @Path("id") id: Int,
+        @Query("append_to_response") append: String = "videos",
+    ): MovieDetailDto
 
     @GET("movie/{id}/reviews")
     suspend fun getReviews(@Path("id") id: Int, @Query("page") page: Int = 1): ReviewListDto

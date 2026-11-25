@@ -27,6 +27,10 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail = MovieDetail(
     runtimeMinutes = runtime?.takeIf { it > 0 },
     genres = genres.map { it.name },
     rating = voteAverage,
+    trailerKey = videos?.results.orEmpty()
+        .filter { it.site == "YouTube" && it.type == "Trailer" }
+        .let { trailers -> trailers.firstOrNull { it.official } ?: trailers.firstOrNull() }
+        ?.key,
 )
 
 /** Parses `yyyy-MM-dd`. Empty, missing or invalid input gives `null`. */

@@ -15,6 +15,18 @@ data class MovieDetailDto(
     val runtime: Int? = null,
     val genres: List<GenreDto> = emptyList(),
     @SerialName("vote_average") val voteAverage: Double = 0.0,
+    val videos: VideoListDto? = null,
+)
+
+@Serializable
+data class VideoListDto(val results: List<VideoDto> = emptyList())
+
+@Serializable
+data class VideoDto(
+    val key: String,
+    val site: String = "",
+    val type: String = "",
+    val official: Boolean = false,
 )
 
 @Serializable

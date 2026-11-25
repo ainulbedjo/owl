@@ -3,6 +3,8 @@ package app.moviedb.core.data.mapper
 import app.moviedb.core.data.network.dto.GenreDto
 import app.moviedb.core.data.network.dto.MovieDetailDto
 import app.moviedb.core.data.network.dto.MovieDto
+import app.moviedb.core.data.network.dto.VideoDto
+import app.moviedb.core.data.network.dto.VideoListDto
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -65,5 +67,32 @@ class MovieMapperTest {
         assertEquals(128, detail.runtimeMinutes)
         assertEquals("Hi", detail.tagline)
         assertEquals("/b.jpg", detail.backdropPath)
+    }
+
+    @Test
+    fun detailPicksOfficialYouTubeTrailer() {
+        val detail = MovieDetailDto(
+            id = 6, title = "T",
+            videos = VideoListDto(
+                listOf(
+                    VideoDto("teaser", "YouTube", "Teaser", official = true),
+                    VideoDto("vimeo", "Vimeo", "Trailer", official = true),
+                    VideoDto("fan", "YouTube", "Trailer", official = false),
+                    VideoDto("main", "YouTube", "Trailer", official = true),
+                ),
+            ),
+        ).toMovieDetail()
+
+        assertEquals("main", detail.trailerKey)
+    }
+
+    @Test
+    fun detailWithoutTrailerGivesNull() {
+        assertNull(MovieDetailDto(id = 7, title = "T").toMovieDetail().trailerKey)
+        val teaserOnly = MovieDetailDto(
+            id = 8, title = "T",
+            videos = VideoListDto(listOf(VideoDto("x", "YouTube", "Teaser"))),
+        ).toMovieDetail()
+        assertNull(teaserOnly.trailerKey)
     }
 }

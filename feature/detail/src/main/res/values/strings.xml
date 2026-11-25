@@ -1,6 +1,7 @@
 <resources>
     <string name="detail_back">Back</string>
     <string name="detail_overview">Overview</string>
+    <string name="detail_watch_trailer">Watch trailer</string>
     <string name="detail_no_overview">No description available.</string>
     <string name="detail_runtime">%1$d min</string>
     <string name="detail_loading_movie">Loading movie</string>

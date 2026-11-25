@@ -21,15 +21,18 @@ The Detail screen therefore makes two calls, which load and fail independently:
 |---|---|---|---|---|---|
 | `movie_id` | path | integer (int32) | yes | none | The movie id from the list item. |
 | `language` | query | string | no | `en-US` | Not sent by the app. |
-| `append_to_response` | query | string | no | none | Comma-separated endpoints, 20 at most. Not used. |
+| `append_to_response` | query | string | no | none | Comma-separated endpoints, 20 at most. The app sends `videos`. |
 
-`append_to_response=reviews` would fold both calls into one. We keep them separate so that a reviews failure does not blank the whole screen.
+`append_to_response=videos` adds the trailer to the same call, so there is no third request. `append_to_response=reviews` would fold the reviews in too. We keep reviews separate so that a reviews failure does not blank the whole screen.
 
 Retrofit sketch:
 
 ```kotlin
 @GET("movie/{movie_id}")
-suspend fun movieDetail(@Path("movie_id") id: Int): MovieDetailDto
+suspend fun movieDetail(
+    @Path("movie_id") id: Int,
+    @Query("append_to_response") append: String = "videos",
+): MovieDetailDto
 ```
 
 ## Response (200)
@@ -64,10 +67,12 @@ The reference lists these top-level fields:
 | `spoken_languages` | array of object | no |
 | `status` | string | no |
 | `video` | boolean | no |
+| `videos` | object `{ results: [] }` | yes, only with `append_to_response=videos` |
 
 Nested shapes in the reference, for completeness:
 
 - `genres[]`: `id` (integer), `name` (string).
+- `videos.results[]`: `key` (string), `site` (string), `type` (string), `official` (boolean), plus `id`, `name`, `size`, `iso_639_1`, `iso_3166_1`, `published_at` that the app ignores.
 - `belongs_to_collection`: `id`, `name`, `poster_path`, `backdrop_path`.
 - `production_companies[]`: `id`, `logo_path`, `name`, `origin_country`.
 - `production_countries[]`: `iso_3166_1`, `name`.
@@ -90,6 +95,18 @@ data class MovieDetailDto(
     val runtime: Int? = null,
     val genres: List<GenreDto> = emptyList(),
     @SerialName("vote_average") val voteAverage: Double = 0.0,
+    val videos: VideoListDto? = null,
+)
+
+@Serializable
+data class VideoListDto(val results: List<VideoDto> = emptyList())
+
+@Serializable
+data class VideoDto(
+    val key: String,
+    val site: String = "",
+    val type: String = "",
+    val official: Boolean = false,
 )
 
 @Serializable
@@ -112,6 +129,9 @@ Nullability follows [tmdb_overview.md](tmdb_overview.md#nullability-and-defensiv
 | `runtimeMinutes` | `Int?` | `runtime` | `0` or `null` becomes `null`, so the UI hides the chip. |
 | `genres` | `List<String>` | `genres[].name` | Names only. |
 | `rating` | `Double` | `vote_average` | Copy. |
+| `trailerKey` | `String?` | `videos.results[]` | Keep entries with `site == "YouTube"` and `type == "Trailer"`. Take the first with `official == true`, else the first one. No match gives `null`, and the UI hides the button. |
+
+The Detail screen shows a "Watch trailer" button when `trailerKey` is set. It opens `https://www.youtube.com/watch?v={trailerKey}` with the system URI handler, so the YouTube app or the browser plays it. There is no in-app player.
 
 ## Favorites snapshot
 
@@ -137,7 +157,12 @@ Illustrative data with a made-up movie, trimmed to the fields we read.
     { "id": 9648, "name": "Mystery" },
     { "id": 18, "name": "Drama" }
   ],
-  "vote_average": 8.4
+  "vote_average": 8.4,
+  "videos": {
+    "results": [
+      { "key": "abc123", "site": "YouTube", "type": "Trailer", "official": true }
+    ]
+  }
 }
 ```
 

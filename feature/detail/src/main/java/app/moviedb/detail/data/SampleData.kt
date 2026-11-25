@@ -19,6 +19,7 @@ internal val sampleMovie = MovieDetail(
     runtimeMinutes = 128,
     genres = listOf("Mystery", "Drama"),
     rating = 8.4,
+    trailerKey = "abc123",
 )
 
 internal val sampleReviews = listOf(

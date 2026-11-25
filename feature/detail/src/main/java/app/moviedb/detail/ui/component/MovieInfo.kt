@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -39,6 +41,7 @@ import app.moviedb.detail.data.sampleMovie
 @Composable
 fun MovieInfo(movie: MovieDetail, modifier: Modifier = Modifier) {
     val date = movie.releaseDate.toCardDate()
+    val uriHandler = LocalUriHandler.current
 
     Column(modifier = modifier.padding(horizontal = 20.dp)) {
         Text(
@@ -75,6 +78,19 @@ fun MovieInfo(movie: MovieDetail, modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(top = 8.dp),
             ) {
                 movie.genres.forEach { GenreChip(it) }
+            }
+        }
+
+        if (movie.trailerKey != null) {
+            Button(
+                onClick = { uriHandler.openUri("https://www.youtube.com/watch?v=${movie.trailerKey}") },
+                modifier = Modifier.padding(top = 20.dp),
+            ) {
+                Icon(Icons.Filled.PlayArrow, contentDescription = null)
+                Text(
+                    text = stringResource(R.string.detail_watch_trailer),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
             }
         }
 
