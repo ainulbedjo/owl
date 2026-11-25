@@ -5,6 +5,8 @@ The app reads from The Movie Database (TMDB) API v3. This page covers what every
 - [movie_lists.md](movie_lists.md): Popular, Top Rated, Now Playing.
 - [movie_detail.md](movie_detail.md): movie details.
 - [movie_reviews.md](movie_reviews.md): reviews.
+- [genre_list.md](genre_list.md): official movie genres.
+- [discover_movie.md](discover_movie.md): discover by genre and the endless list.
 
 Source: the TMDB reference at https://developer.themoviedb.org/reference. Facts marked **Not in the reference** come from known TMDB behavior or are our own decisions. Verify them with a real call when the network layer is built.
 
@@ -17,6 +19,8 @@ Source: the TMDB reference at https://developer.themoviedb.org/reference. Facts 
 | Home | `GET /3/movie/now_playing` | [movie_lists.md](movie_lists.md) |
 | Detail | `GET /3/movie/{movie_id}` | [movie_detail.md](movie_detail.md) |
 | Detail | `GET /3/movie/{movie_id}/reviews` | [movie_reviews.md](movie_reviews.md) |
+| Genres (planned) | `GET /3/genre/movie/list` | [genre_list.md](genre_list.md) |
+| Discover, Explore (planned) | `GET /3/discover/movie` | [discover_movie.md](discover_movie.md) |
 
 Favorites use no endpoint. They are read from the local database.
 

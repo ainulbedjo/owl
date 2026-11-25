@@ -24,9 +24,10 @@ import app.moviedb.core.model.ThemeSettings
 import app.moviedb.designsystem.component.OfflineSheet
 import app.moviedb.home.R
 import app.moviedb.home.ui.component.HomeTopBar
-import app.moviedb.home.ui.component.PopularSection
-import app.moviedb.home.ui.component.PosterSection
-import app.moviedb.home.ui.component.WideSection
+import app.moviedb.home.ui.component.section.GenreSection
+import app.moviedb.home.ui.component.section.PopularSection
+import app.moviedb.home.ui.component.section.PosterSection
+import app.moviedb.home.ui.component.section.WideSection
 import app.moviedb.home.ui.sheet.AppearanceSheet
 
 /**
@@ -97,6 +98,9 @@ fun HomeScreen(
                     onMovieClick = onMovieClick,
                     onRetry = { onRetry(HomeSection.NowPlaying) },
                 )
+            }
+            item {
+                GenreSection()
             }
         }
     }

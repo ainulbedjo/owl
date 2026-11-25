@@ -1,4 +1,4 @@
-package app.moviedb.home.ui.component
+package app.moviedb.home.ui.component.section
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,8 @@ import app.moviedb.core.model.Movie
 import app.moviedb.home.R
 import app.moviedb.home.ui.PopularSkeleton
 import app.moviedb.home.ui.SectionStateContent
+import app.moviedb.home.ui.component.PopularCard
+import app.moviedb.home.ui.component.SectionHeader
 
 @Composable
 fun PopularSection(

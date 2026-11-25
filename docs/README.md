@@ -41,7 +41,7 @@ Docs are the source of truth. If code and docs disagree, fix the doc in the same
 | Libraries | [libraries.md](libraries.md) | Done |
 | Features | [features/home.md](features/home.md), [features/detail.md](features/detail.md), [features/favorites.md](features/favorites.md) | Done |
 | Design | `design/design_system.md`, `design/components/*.md` | Planned |
-| API | [api/tmdb_overview.md](api/tmdb_overview.md), [api/movie_lists.md](api/movie_lists.md), [api/movie_detail.md](api/movie_detail.md), [api/movie_reviews.md](api/movie_reviews.md) | Done |
+| API | [api/tmdb_overview.md](api/tmdb_overview.md), [api/movie_lists.md](api/movie_lists.md), [api/movie_detail.md](api/movie_detail.md), [api/movie_reviews.md](api/movie_reviews.md), [api/genre_list.md](api/genre_list.md), [api/discover_movie.md](api/discover_movie.md) | Done |
 | To do | [todo/data-fetch.md](todo/data-fetch.md) | Open |
 
 Links turn into real links as each document is written.

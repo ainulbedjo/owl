@@ -3,8 +3,6 @@ package app.moviedb.core.di
 import android.content.Context
 import app.moviedb.core.BuildConfig
 import app.moviedb.core.data.network.AuthInterceptor
-import app.moviedb.core.data.network.TMDB_BASE_URL
-import app.moviedb.core.data.network.networkJson
 import app.moviedb.core.data.network.service.ApiService
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Module
@@ -12,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -44,8 +43,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val networkJson = Json { ignoreUnknownKeys = true }
+
         return Retrofit.Builder()
-            .baseUrl(TMDB_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
             .build()

@@ -82,7 +82,7 @@ From the reference, each of these is a wrapper over the Discover call with prese
 | `top_rated` | `include_adult=false`, `include_video=false`, `sort_by=vote_average.desc`, `without_genres=99,10755`, `vote_count.gte=200` |
 | `now_playing` | `include_adult=false`, `include_video=false`, `sort_by=popularity.desc`, `with_release_type=2\|3` |
 
-We call the dedicated endpoints, not Discover.
+Home calls the dedicated endpoints, not Discover. The genre and Explore screens do call Discover, see [discover_movie.md](discover_movie.md).
 
 ## Mapping to the domain model
 

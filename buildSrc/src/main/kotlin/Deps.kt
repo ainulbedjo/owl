@@ -1,7 +1,7 @@
 // need to suppress, cuz the props will be generated into a .class file
 @Suppress("unused")
 object Deps {
-    const val APP_NAME = "MovieDB"
+    const val APP_NAME = "Owl"
 
     const val NAMESPACE = "app.moviedb"
     const val MIN_SDK = 30
